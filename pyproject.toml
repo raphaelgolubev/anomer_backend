@@ -1,0 +1,12 @@
+[project]
+name = "anoma-backend"
+version = "0.0.1"
+description = "Backend server implementation for iOS application Anoma"
+readme = "README.md"
+requires-python = ">=3.12.3"
+dependencies = [
+    "asyncpg>=0.30.0",
+    "fastapi>=0.115.14",
+    "sqlalchemy>=2.0.41",
+    "uvicorn>=0.35.0",
+]

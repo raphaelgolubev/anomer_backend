@@ -1,6 +1,6 @@
 # anoma backend
 
-- python 3.12+
+- python 3.12.3+
 - fastapi
 
 # License
