@@ -4,6 +4,7 @@ version = "0.0.1"
 description = "Backend server implementation for iOS application Anoma"
 readme = "README.md"
 requires-python = ">=3.12.3"
+license = { file = "LICENSE" }
 dependencies = [
     "asyncpg>=0.30.0",
     "fastapi>=0.115.14",
@@ -11,3 +12,15 @@ dependencies = [
     "sqlalchemy>=2.0.41",
     "uvicorn>=0.35.0",
 ]
+
+[tool.ruff]
+target-version = "py312" # Python 3.12
+line-length = 88 # Максимальная длина строки — 88 символов
+
+[tool.ruff.lint]
+ignore = ["E501"] # Игнорировать ошибку "слишком длинная строка"
+select = ["E", "F", "W", "I"] # Проверять ошибки, исправления, предупреждения и сортировку импортов
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"] # Модули которые будут считаться локальными
+combine-as-imports = true # Объединять импорты с 'as' в одну строку
