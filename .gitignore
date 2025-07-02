@@ -92,4 +92,7 @@ alembic/versions/__pycache__/
 *.pyo
 
 # uv cache
-.uv/ 
+.uv/
+
+# Ruff cache
+.ruff_cache/ 
