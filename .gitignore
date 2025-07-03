@@ -99,3 +99,7 @@ alembic/versions/__pycache__/
 
 # Markdown-файлы для личного пользования
 *.my.md
+
+# PEM
+certs/
+*.pem
