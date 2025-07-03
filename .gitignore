@@ -96,3 +96,6 @@ alembic/versions/__pycache__/
 
 # Ruff cache
 .ruff_cache/ 
+
+# Markdown-файлы для личного пользования
+*.my.md
