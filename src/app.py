@@ -2,6 +2,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from src.api_v1 import main_router as api_v1_router
+
 
 async def startup():
     """ Выполняется при запуске приложения """
@@ -24,3 +26,5 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     lifespan=lifespan,
 )
+
+app.include_router(api_v1_router)
