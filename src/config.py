@@ -1,3 +1,5 @@
+from pathlib import Path
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -24,6 +26,14 @@ class ModelConfig:
         return config
 
 
+class SecuritySettings(BaseSettings):
+    secret_pem_file: Path = Field(alias='SECURITY_PRIVATE_JWT', default=Path('certs/jwt-private.pem'))
+    public_pem_file: Path = Field(alias='SECURITY_PUBLIC_JWT', default=Path('certs/jwt-public.pem'))
+    algorithm: str = Field(default='RS256')
+
+    model_config = ModelConfig(env_prefix='SECURITY_')
+
+
 class ServerSettings(BaseSettings):
     host: str
     port: int
@@ -39,6 +49,7 @@ class DatabaseSettings(BaseSettings):
 
 
 class Settings:
+    security = SecuritySettings()
     server = ServerSettings()
     database = DatabaseSettings()
 
