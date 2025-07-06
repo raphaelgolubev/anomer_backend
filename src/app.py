@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from src.api_v1 import main_router as api_v1_router
+from src.api.v1 import main_router as api_v1_router
 
 
 async def startup():
