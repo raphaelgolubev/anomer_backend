@@ -2,9 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from src.api.v1 import main_router as api_v1_router
 from src.config import settings
 from src.database import database
-from src.api.v1 import main_router as api_v1_router
 
 
 async def startup():
@@ -13,7 +13,7 @@ async def startup():
     # Проверяем соединение с БД (соединение закроется или вернется в пул автоматически)
     try:
         await database.check_db_connection()
-    except Exception as e:
+    except Exception:
         raise RuntimeError("Database connection check failed!")
 
 
