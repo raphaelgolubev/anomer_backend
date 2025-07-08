@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class ModelConfig:
     """
     Определяет значения по умолчанию.
-    Значения можно переопределять внутри класса `BaseSettings`:
+    Значения можно переопределять внутри наследника `BaseSettings`:
     ```python
     class ExampleSettings(BaseSettings):
         ...
@@ -45,8 +45,20 @@ class ServerSettings(BaseSettings):
 
 
 class DatabaseSettings(BaseSettings):
-    host: str
+    user: str
+    password: str
+    name: str
     port: int
+    host: str
+
+    @property
+    def async_dsn(self):
+        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
+
+    echo: bool = False
+    echo_pool: bool = False
+    pool_size: int = 50
+    max_overflow: int = 10
 
     model_config = ModelConfig(env_prefix='DB_')
 
@@ -60,7 +72,7 @@ class Settings:
     app = AppSettings()
     security = SecuritySettings()
     server = ServerSettings()
-    database = DatabaseSettings()
+    db = DatabaseSettings()
 
 
 settings = Settings()
