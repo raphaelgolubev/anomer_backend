@@ -1,11 +1,9 @@
-from uuid import UUID as UuidType
 from datetime import datetime
 
-from sqlalchemy import DateTime, func
+from sqlalchemy import DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql.expression import FunctionElement
-from sqlalchemy.dialects.postgresql import UUID as UuidColumn
 
 
 class utcnow(FunctionElement):
@@ -16,15 +14,6 @@ class utcnow(FunctionElement):
 @compiles(utcnow, "postgresql")
 def pg_utcnow(element, compiler, **kw):
     return "TIMEZONE('Europe/Moscow', CURRENT_TIMESTAMP)"
-
-
-class UuidMixin:
-    id: Mapped[UuidType] = mapped_column(
-        UuidColumn(as_uuid=True),
-        primary_key=True,
-        nullable=False,
-        server_default=func.gen_random_uuid(),
-    )
 
 
 class TimestampMixin:

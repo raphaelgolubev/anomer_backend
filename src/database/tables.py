@@ -2,7 +2,8 @@ from sqlalchemy import MetaData
 from sqlalchemy.orm import Mapped, DeclarativeBase, declared_attr, mapped_column
 
 from src.config import settings
-from src.database.mixins import UuidMixin, TimestampMixin
+from src.database.mixins.int_id_pk_mixin import IntIdPkMixin
+from src.database.mixins.created_updated_at_mixin import TimestampMixin
 from src.utils.case_converter import camel_case_to_snake_case
 
 
@@ -16,7 +17,7 @@ class Base(DeclarativeBase):
         return f"{camel_case_to_snake_case(self.__name__)}s"
 
 
-class User(Base, UuidMixin, TimestampMixin):
+class User(Base, IntIdPkMixin, TimestampMixin):
     """Таблица пользователей"""
 
     username: Mapped[str] = mapped_column(nullable=True, unique=True)
