@@ -19,8 +19,9 @@ dependencies = [
 
 [tool.ruff]
 fix = true
+show-fixes = true
 target-version = "py312" # Python 3.12
-line-length = 100 # Максимальная длина строки — 100 символов
+line-length = 88 # Максимальная длина строки — 88 символов
 exclude = [
     ".git",
     ".venv",
@@ -31,7 +32,7 @@ exclude = [
 
 [tool.ruff.lint]
 ignore = [
-    "RUF001", # Игнорировать ошибку "строка содержит кириллицу"
+    "RUF001", # "строка содержит кириллицу"
     "RUF003" # "комментарий содержит кириллицу"
 ] 
 select = [
@@ -44,10 +45,14 @@ select = [
 ]
 
 [tool.ruff.lint.isort]
+length-sort = true # короткие импорты идут первыми
 known-first-party = ["src"] # Модули которые будут считаться локальными
 combine-as-imports = true # Объединять импорты с 'as' в одну строку
+split-on-trailing-comma = false
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
+docstring-code-format = true # форматировать код в док стрингах
+skip-magic-trailing-comma = true

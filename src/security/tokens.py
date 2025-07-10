@@ -1,8 +1,8 @@
 from enum import Enum
 
 import src.security.hashing_encoding as jwt_utils
-from src.api.v1.users.schemas import UserCredentials
 from src.config import settings
+from src.api.v1.users.schemas import UserCredentials
 
 TOKEN_TYPE_FIELD = "type"
 
@@ -34,15 +34,10 @@ def create_jwt(token_type: TokenType, token_data: dict) -> str:
 
 
 def create_access_token(user: UserCredentials) -> str:
-    jwt_payload = {
-        "sub": user.username,
-        "email": user.email,
-    }
+    jwt_payload = {"sub": user.username, "email": user.email}
     return create_jwt(token_type=TokenType.ACCESS_TOKEN_TYPE, token_data=jwt_payload)
 
 
 def create_refresh_token(user: UserCredentials) -> str:
-    jwt_payload = {
-        "sub": user.username,
-    }
+    jwt_payload = {"sub": user.username}
     return create_jwt(token_type=TokenType.REFRESH_TOKEN_TYPE, token_data=jwt_payload)

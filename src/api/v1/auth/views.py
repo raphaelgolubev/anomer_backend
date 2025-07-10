@@ -1,13 +1,13 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Form, HTTPException, status
+from fastapi import Form, Depends, APIRouter, HTTPException, status
 
+import src.security.tokens as tokens
 import src.api.v1.auth.validations as validator
 import src.security.hashing_encoding as jwt_utils
-import src.security.tokens as tokens
+from src.database.ram_db import user_db
 from src.api.v1.auth.schemas import TokenInfo
 from src.api.v1.users.schemas import UserCredentials
-from src.database.ram_db import user_db
 
 router = APIRouter(prefix="/auth", tags=["Авторизация"])
 
@@ -23,7 +23,9 @@ def get_login_credentials(username: str = Form(), password: str = Form()):
         raise unauthorized_exc
 
     if not user.is_active:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Пользователь не активен")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Пользователь не активен"
+        )
 
     return user
 
@@ -40,7 +42,9 @@ async def login(
 
 @router.post("/refresh/", response_model=TokenInfo, response_model_exclude_none=True)
 async def refresh_token(
-    credentials: Annotated[UserCredentials, Depends(validator.get_current_auth_user_for_refresh)],
+    credentials: Annotated[
+        UserCredentials, Depends(validator.get_current_auth_user_for_refresh)
+    ],
 ):
     access_token = tokens.create_access_token(user=credentials)
 

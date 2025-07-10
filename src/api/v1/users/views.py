@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import Depends, APIRouter
 
 import src.api.v1.auth.validations as validator
 from src.api.v1.users.schemas import UserCredentials
@@ -14,8 +14,4 @@ async def get_current_user(
     user: Annotated[UserCredentials, Depends(validator.get_current_active_auth_user)],
 ):
     iat = payload.get("iat")
-    return {
-        "logged_in_at": iat,
-        "username": user.username,
-        "email": user.email,
-    }
+    return {"logged_in_at": iat, "username": user.username, "email": user.email}

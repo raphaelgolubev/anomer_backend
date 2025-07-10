@@ -1,7 +1,7 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone, timedelta
 
-import bcrypt
 import jwt
+import bcrypt
 
 from src.config import settings
 
@@ -21,7 +21,9 @@ def encode_jwt(
     elif expire_minutes:
         expire = now + timedelta(minutes=expire_minutes)
     else:
-        raise ValueError("Не передан ни один из параметров 'expire_timedelta', 'expire_minutes'")
+        raise ValueError(
+            "Не передан ни один из параметров 'expire_timedelta', 'expire_minutes'"
+        )
 
     to_encode.update(exp=expire, iat=now)
 
@@ -46,4 +48,6 @@ def hash_password(password: str) -> bytes:
 
 
 def verify_password(password: str, hashed_password: bytes) -> bool:
-    return bcrypt.checkpw(password=password.encode("utf-8"), hashed_password=hashed_password)
+    return bcrypt.checkpw(
+        password=password.encode("utf-8"), hashed_password=hashed_password
+    )

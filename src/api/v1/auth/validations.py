@@ -1,10 +1,10 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt.exceptions import InvalidTokenError
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from src.api.v1.users.schemas import UserCredentials
+from src.security import tokens, hashing_encoding
 from src.database.ram_db import user_db
-from src.security import hashing_encoding, tokens
+from src.api.v1.users.schemas import UserCredentials
 
 http_bearer = HTTPBearer()
 
@@ -32,7 +32,9 @@ def get_user_from_token_payload(payload: dict):
     if user := user_db.get(username):
         return user
 
-    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Токен неверный")
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="Токен неверный"
+    )
 
 
 def validate_token_type(payload: dict, token_type: tokens.TokenType) -> bool:
@@ -58,7 +60,9 @@ def get_auth_user_from_token_of_type(token_type: tokens.TokenType):
     return get_auth_user_from_token
 
 
-get_current_auth_user = get_auth_user_from_token_of_type(tokens.TokenType.ACCESS_TOKEN_TYPE)
+get_current_auth_user = get_auth_user_from_token_of_type(
+    tokens.TokenType.ACCESS_TOKEN_TYPE
+)
 get_current_auth_user_for_refresh = get_auth_user_from_token_of_type(
     tokens.TokenType.REFRESH_TOKEN_TYPE
 )

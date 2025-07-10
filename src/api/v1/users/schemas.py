@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import Field, EmailStr, BaseModel, ConfigDict
 
 
 class UserCredentials(BaseModel):

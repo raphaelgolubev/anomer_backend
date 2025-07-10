@@ -11,7 +11,7 @@ class ModelConfig:
     ```python
     class ExampleSettings(BaseSettings):
         ...
-        model_config = ModelConfig(env_prefix='EXAMPLE_', env_file='example.dev.env')
+        model_config = ModelConfig(env_prefix="EXAMPLE_", env_file="example.dev.env")
     ```
     """
 
@@ -29,8 +29,12 @@ class ModelConfig:
 
 
 class SecuritySettings(BaseSettings):
-    secret_pem_file: Path = Field(alias="SECURITY_PRIVATE_JWT", default=Path("certs/jwt-private.pem"))
-    public_pem_file: Path = Field(alias="SECURITY_PUBLIC_JWT", default=Path("certs/jwt-public.pem"))
+    secret_pem_file: Path = Field(
+        alias="SECURITY_PRIVATE_JWT", default=Path("certs/jwt-private.pem")
+    )
+    public_pem_file: Path = Field(
+        alias="SECURITY_PUBLIC_JWT", default=Path("certs/jwt-public.pem")
+    )
     algorithm: str = Field(default="RS256")
     access_token_expire_minutes: int = 15
     refresh_token_expire_minutes: int = 30 * 24 * 60  # 30 дней
@@ -54,9 +58,7 @@ class DatabaseSettings(BaseSettings):
 
     @property
     def async_dsn(self):
-        return (
-            f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
-        )
+        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
 
     echo: bool = False
     echo_pool: bool = False

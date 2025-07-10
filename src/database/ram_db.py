@@ -7,9 +7,6 @@ john = UserCredentials(
     email="john@example.com",
 )
 
-sam = UserCredentials(
-    username="sam",
-    password=jwt_utils.hash_password("secret"),
-)
+sam = UserCredentials(username="sam", password=jwt_utils.hash_password("secret"))
 
 user_db: dict[str, UserCredentials] = {john.username: john, sam.username: sam}
