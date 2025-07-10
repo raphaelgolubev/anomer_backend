@@ -10,8 +10,8 @@ def encode_jwt(
     payload: dict,
     private_key: str = settings.security.secret_pem_file.read_text(),
     algorithm: str = settings.security.algorithm,
-    expire_timedelta: timedelta = None,
-    expire_minutes: int = None
+    expire_timedelta: timedelta | None = None,
+    expire_minutes: int | None = None
 ):
     to_encode = payload.copy()
     now = datetime.now(timezone.utc)
@@ -21,7 +21,9 @@ def encode_jwt(
     elif expire_minutes:
         expire = now + timedelta(minutes=expire_minutes)
     else:
-        raise ValueError("Не передан ни один из параметров 'expire_timedelta', 'expire_minutes'")
+        raise ValueError(
+            "Не передан ни один из параметров 'expire_timedelta', 'expire_minutes'"
+        )
 
     to_encode.update(
         exp=expire,

@@ -45,9 +45,9 @@ def validate_token_type(payload: dict, token_type: tokens.TokenType) -> bool:
         return True
 
     raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Невалидный тип токена {current_token_type!r}, ожидался {token_type.value!r}"
-        )
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=f"Невалидный тип токена {current_token_type!r}, ожидался {token_type.value!r}"
+    )
 
 
 def get_auth_user_from_token_of_type(token_type: tokens.TokenType):
@@ -59,8 +59,12 @@ def get_auth_user_from_token_of_type(token_type: tokens.TokenType):
     return get_auth_user_from_token
 
 
-get_current_auth_user = get_auth_user_from_token_of_type(tokens.TokenType.ACCESS_TOKEN_TYPE)
-get_current_auth_user_for_refresh = get_auth_user_from_token_of_type(tokens.TokenType.REFRESH_TOKEN_TYPE)
+get_current_auth_user = get_auth_user_from_token_of_type(
+    tokens.TokenType.ACCESS_TOKEN_TYPE
+)
+get_current_auth_user_for_refresh = get_auth_user_from_token_of_type(
+    tokens.TokenType.REFRESH_TOKEN_TYPE
+)
 
 
 def get_current_active_auth_user(
