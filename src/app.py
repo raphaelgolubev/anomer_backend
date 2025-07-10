@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.responses import ORJSONResponse
 
 from src.api.v1 import main_router as api_v1_router
 from src.config import settings
@@ -33,6 +34,7 @@ async def lifespan(app: FastAPI):
 
 
 main_app = FastAPI(
+    default_response_class=ORJSONResponse,
     lifespan=lifespan,
     version=settings.app.app_version,
     description="Anoma backend monolith",
