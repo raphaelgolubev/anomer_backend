@@ -46,7 +46,8 @@ def validate_token_type(payload: dict, token_type: tokens.TokenType) -> bool:
 
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
-        detail=f"Невалидный тип токена {current_token_type!r}, ожидался {token_type.value!r}"
+        detail=f"""Невалидный тип токена {current_token_type!r}, 
+        ожидался {token_type.value!r}"""
     )
 
 

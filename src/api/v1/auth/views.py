@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, Form, HTTPException, status
 
 import src.api.v1.auth.validations as validator
@@ -38,7 +40,7 @@ def get_login_credentials(
 
 @router.post('/login/', response_model=TokenInfo)
 async def login(
-    credentials: UserCredentials = Depends(get_login_credentials)
+    credentials: Annotated[UserCredentials, Depends(get_login_credentials)]
 ):
     access_token = tokens.create_access_token(user=credentials)
     refresh_token = tokens.create_refresh_token(user=credentials)
@@ -55,7 +57,10 @@ async def login(
     response_model_exclude_none=True
 )
 async def refresh_token(
-    credentials: UserCredentials = Depends(validator.get_current_auth_user_for_refresh)
+    credentials: Annotated[
+        UserCredentials, 
+        Depends(validator.get_current_auth_user_for_refresh)
+    ]
 ):
     access_token = tokens.create_access_token(user=credentials)
 
