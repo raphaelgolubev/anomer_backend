@@ -1,11 +1,11 @@
-from datetime import datetime
 from uuid import UUID as UuidType
+from datetime import datetime
 
 from sqlalchemy import DateTime, func
-from sqlalchemy.dialects.postgresql import UUID as UuidColumn
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql.expression import FunctionElement
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.dialects.postgresql import UUID as UuidColumn
 
 
 class utcnow(FunctionElement):
@@ -29,9 +29,7 @@ class UuidMixin:
 
 class TimestampMixin:
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        nullable=False,
-        server_default=utcnow(),
+        DateTime, nullable=False, server_default=utcnow()
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,
