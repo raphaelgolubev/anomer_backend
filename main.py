@@ -9,7 +9,7 @@ def main():
         host=settings.server.host,
         port=settings.server.port,
         lifespan="on",
-        reload=True
+        reload=True,
     )
 
 

@@ -8,14 +8,14 @@ from src.api.v1.users.schemas import UserCredentials
 router = APIRouter(prefix="/users", tags=["Пользователи"])
 
 
-@router.get('/users/me/')
+@router.get("/users/me/")
 async def get_current_user(
     payload: Annotated[dict, Depends(validator.get_current_user_token_payload)],
-    user: Annotated[UserCredentials, Depends(validator.get_current_active_auth_user)]
+    user: Annotated[UserCredentials, Depends(validator.get_current_active_auth_user)],
 ):
-    iat = payload.get('iat')
+    iat = payload.get("iat")
     return {
-        'logged_in_at': iat,
-        'username': user.username,
-        'email': user.email,
+        "logged_in_at": iat,
+        "username": user.username,
+        "email": user.email,
     }

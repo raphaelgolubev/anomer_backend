@@ -20,7 +20,7 @@ dependencies = [
 [tool.ruff]
 fix = true
 target-version = "py312" # Python 3.12
-line-length = 88 # Максимальная длина строки — 88 символов
+line-length = 100 # Максимальная длина строки — 100 символов
 exclude = [
     ".git",
     ".venv",

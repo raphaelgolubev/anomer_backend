@@ -8,7 +8,7 @@ from src.database import database
 
 
 async def startup():
-    """ Выполняется при запуске приложения """
+    """Выполняется при запуске приложения"""
     print("Startup")
     # Проверяем соединение с БД (соединение закроется или вернется в пул автоматически)
     try:
@@ -18,7 +18,7 @@ async def startup():
 
 
 async def shutdown():
-    """ Выполняется при остановке приложения """
+    """Выполняется при остановке приложения"""
     print("Shutdown")
     # Закрываем все соединения в пуле
     await database.dispose()
@@ -26,7 +26,7 @@ async def shutdown():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """ Жизненный цикл приложения """
+    """Жизненный цикл приложения"""
     await startup()
     yield
     await shutdown()
