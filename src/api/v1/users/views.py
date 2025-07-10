@@ -3,10 +3,9 @@ from typing import Annotated
 from fastapi import Depends, APIRouter
 
 import src.api.v1.auth.validations as validator
-from src.config import settings
 from src.api.v1.users.schemas import UserCredentials
 
-router = APIRouter(prefix=settings.app.v1.users, tags=["Пользователи"])
+router = APIRouter(tags=["Пользователи"])
 
 
 @router.get("/me/")
