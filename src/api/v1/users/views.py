@@ -9,7 +9,7 @@ from src.api.v1.users.schemas import UserCredentials
 router = APIRouter(prefix=settings.app.v1.users, tags=["Пользователи"])
 
 
-@router.get("/users/me/")
+@router.get("/me/")
 async def get_current_user(
     payload: Annotated[dict, Depends(validator.get_current_user_token_payload)],
     user: Annotated[UserCredentials, Depends(validator.get_current_active_auth_user)],
