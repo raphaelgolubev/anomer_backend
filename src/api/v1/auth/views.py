@@ -5,11 +5,12 @@ from fastapi import Form, Depends, APIRouter, HTTPException, status
 import src.security.tokens as tokens
 import src.api.v1.auth.validations as validator
 import src.security.hashing_encoding as jwt_utils
+from src.config import settings
 from src.database.ram_db import user_db
 from src.api.v1.auth.schemas import TokenInfo
 from src.api.v1.users.schemas import UserCredentials
 
-router = APIRouter(prefix="/auth", tags=["Авторизация"])
+router = APIRouter(prefix=settings.app.v1.auth, tags=["Авторизация"])
 
 
 def get_login_credentials(username: str = Form(), password: str = Form()):
