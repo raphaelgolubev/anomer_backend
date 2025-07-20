@@ -1,7 +1,7 @@
 [project]
-name = "anoma-backend"
+name = "anomer-backend"
 version = "0.0.1"
-description = "Backend server implementation for iOS application Anoma"
+description = "Backend server implementation for iOS application Anomer"
 readme = "README.md"
 requires-python = ">=3.12.3"
 license = { file = "LICENSE" }

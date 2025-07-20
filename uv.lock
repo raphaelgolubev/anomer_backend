@@ -26,7 +26,7 @@ wheels = [
 ]
 
 [[package]]
-name = "anoma-backend"
+name = "anomer-backend"
 version = "0.0.1"
 source = { virtual = "." }
 dependencies = [
