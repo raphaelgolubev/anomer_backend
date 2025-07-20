@@ -1,4 +1,6 @@
-# anoma backend
+# Anomer backend
+
+**A***nother* **N***ew* **O***nline* **ME***ssenge***R**
 
 - python 3.12.3+
 - fastapi
@@ -11,7 +13,7 @@
 
 1. Клонируйте репозиторий и перейдите в корневую директорию проекта:
 ```bash
-git clone https://github.com/raphaelgolubev/anoma_backend.git && cd anoma_backend
+git clone https://github.com/raphaelgolubev/anomer_backend.git && cd anomer_backend
 ```
 Первая команда скачает весь исходный код из удаленного репозитория, вторая команда перейдет в корневую директорию проекта.
 
