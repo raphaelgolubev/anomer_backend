@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Код подтверждения</title>
+    <style>
+      body {
+        background: #f5f7fa;
+        font-family: 'Segoe UI', Arial, sans-serif;
+      }
+      .container {
+        max-width: 400px;
+        margin: 40px auto;
+        background: #fff;
+        border: 2px solid #2d8cf0;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(45,140,240,0.08);
+        padding: 32px 24px 24px 24px;
+        text-align: center;
+      }
+      .header-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        gap: 20px;
+      }
+      .logo {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        display: block;
+      }
+      .app-title {
+        font-size: 2.2em;
+        font-weight: bold;
+        color: #2d8cf0;
+        letter-spacing: 0.04em;
+        text-align: left;
+        line-height: 1.1;
+      }
+      .code-box {
+        display: inline-block;
+        margin: 24px 0 16px 0;
+        padding: 18px 36px;
+        font-size: 2.2em;
+        font-weight: bold;
+        color: #fff;
+        background: linear-gradient(90deg, #2d8cf0 60%, #5ad1e6 100%);
+        border-radius: 12px;
+        letter-spacing: 0.2em;
+        box-shadow: 0 2px 8px rgba(45,140,240,0.10);
+      }
+      .subtitle {
+        color: #333;
+        font-size: 1.1em;
+        margin-bottom: 0.5em;
+      }
+      .logo-svg {
+        width: 45px;
+        height: 45px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-row">
+        <!-- <img src="cid:logo.jpg" alt="Logo" class="logo" /> -->
+        {{ logo_svg|safe }}
+        <span class="app-title">{{ app_name }}</span>
+      </div>
+      <h2>Ваш код подтверждения</h2>
+      <div class="subtitle">Введите этот код в iOS приложении:</div>
+      <div class="code-box">{{ code }}</div>
+    </div>
+  </body>
+</html>
