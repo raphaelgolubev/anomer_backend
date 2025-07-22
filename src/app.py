@@ -37,7 +37,7 @@ main_app = FastAPI(
     default_response_class=ORJSONResponse,
     lifespan=lifespan,
     version=settings.app.app_version,
-    description="Anoma backend monolith",
+    description="Anomer backend monolith",
 )
 
 main_app.include_router(api_v1_router)

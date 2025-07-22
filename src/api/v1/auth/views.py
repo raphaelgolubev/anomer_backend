@@ -7,13 +7,16 @@ import src.api.v1.auth.validations as validator
 import src.security.hashing_encoding as jwt_utils
 
 from src.database.ram_db import user_db
-from src.api.v1.auth.schemas import TokenInfo
-from src.api.v1.users.schemas import UserCredentials
+from src.schemas.auth import TokenInfo
+from src.schemas.users import UserCredentials
 
 router = APIRouter(tags=["Авторизация"])
 
 
-def get_login_credentials(username: str = Form(), password: str = Form()):
+def get_login_credentials(
+    username: str = Form(), 
+    password: str = Form()
+):
     unauthorized_exc = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверные учетные данные"
     )

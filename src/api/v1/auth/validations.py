@@ -4,7 +4,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from src.security import tokens, hashing_encoding
 from src.database.ram_db import user_db
-from src.api.v1.users.schemas import UserCredentials
+from src.schemas.users import UserCredentials
 
 http_bearer = HTTPBearer()
 

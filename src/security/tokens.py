@@ -2,7 +2,7 @@ from enum import Enum
 
 import src.security.hashing_encoding as jwt_utils
 from src.config import settings
-from src.api.v1.users.schemas import UserCredentials
+from src.schemas.users import UserCredentials
 
 TOKEN_TYPE_FIELD = "type"
 

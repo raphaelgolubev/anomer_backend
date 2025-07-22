@@ -1,5 +1,5 @@
 import src.security.hashing_encoding as jwt_utils
-from src.api.v1.users.schemas import UserCredentials
+from src.schemas.users import UserCredentials
 
 john = UserCredentials(
     username="john",
