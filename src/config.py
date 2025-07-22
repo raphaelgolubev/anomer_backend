@@ -82,7 +82,18 @@ class ApiV1Config(BaseModel):
     users: str = "/users"
 
 
+class MailSettings(BaseSettings):
+    port: int = 465
+    hostname: str
+    password: str
+    sender: str
+    templates_path: Path
+
+    model_config = ModelConfig(env_prefix="MAIL_")
+
+
 class AppSettings(BaseSettings):
+    name: str = "Anomer"
     app_version: str = "0.0.1"
     prefix: str = "/api"
     v1: ApiV1Config = ApiV1Config()
@@ -93,6 +104,7 @@ class Settings:
     security = SecuritySettings()
     server = ServerSettings()
     db = DatabaseSettings()
+    mail = MailSettings()
 
 
 settings = Settings()
