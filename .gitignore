@@ -103,3 +103,6 @@ alembic/versions/__pycache__/
 # PEM
 certs/
 *.pem
+
+# Test scripts ("..._test.py")
+**/*_test.py
