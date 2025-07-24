@@ -1,6 +1,6 @@
 # Anomer backend
 <p align="left">
-  <img src="logo.svg" alt="Project Logo" width="120" height="120">
+  <img src="docs/logo.svg" alt="Project Logo" width="120" height="120">
 </p>
 
 **A***nother* **N***ew* **O***nline* **ME***ssenge***R**
