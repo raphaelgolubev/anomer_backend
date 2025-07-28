@@ -1,0 +1,126 @@
+#!/bin/bash
+
+# Цвета для вывода
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Функция для вывода сообщений
+print_status() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Проверяем, что мы в корневой директории проекта
+if [ ! -f "pyproject.toml" ]; then
+    print_error "Скрипт должен быть запущен из корневой директории проекта!"
+    print_error "Убедитесь, что файл pyproject.toml находится в текущей директории."
+    exit 1
+fi
+
+print_status "Начинаем установку Anomer Backend..."
+
+# Проверяем наличие необходимых утилит
+print_status "Проверяем наличие необходимых утилит..."
+
+if ! command -v uv &> /dev/null; then
+    print_error "uv не найден! Установите uv: brew install uv"
+    exit 1
+fi
+
+if ! command -v openssl &> /dev/null; then
+    print_error "openssl не найден! Установите openssl"
+    exit 1
+fi
+
+if ! command -v docker &> /dev/null; then
+    print_warning "Docker не найден! Установите Docker Desktop для работы с базой данных"
+fi
+
+print_success "Все необходимые утилиты найдены"
+
+# Создание директории certs
+print_status "Создаем директорию для сертификатов..."
+if [ ! -d "certs" ]; then
+    mkdir -p certs
+    print_success "Директория certs создана"
+else
+    print_warning "Директория certs уже существует"
+fi
+
+# Проверяем, существуют ли уже ключи
+if [ -f "certs/jwt-private.pem" ] || [ -f "certs/jwt-public.pem" ]; then
+    print_warning "Сертификаты уже существуют в директории certs/"
+    read -p "Хотите пересоздать сертификаты? (y/N): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        print_status "Удаляем старые сертификаты..."
+        rm -f certs/jwt-private.pem certs/jwt-public.pem
+    else
+        print_status "Пропускаем создание сертификатов"
+        goto_uv_sync=true
+    fi
+fi
+
+if [ "$goto_uv_sync" != "true" ]; then
+    # Генерация приватного ключа
+    print_status "Генерируем приватный RSA ключ..."
+    if openssl genrsa -out certs/jwt-private.pem 2048; then
+        print_success "Приватный ключ создан: certs/jwt-private.pem"
+    else
+        print_error "Ошибка при создании приватного ключа"
+        exit 1
+    fi
+
+    # Получение публичного ключа
+    print_status "Создаем публичный ключ..."
+    if openssl rsa -in certs/jwt-private.pem -outform PEM -pubout -out certs/jwt-public.pem; then
+        print_success "Публичный ключ создан: certs/jwt-public.pem"
+    else
+        print_error "Ошибка при создании публичного ключа"
+        exit 1
+    fi
+
+    # Устанавливаем правильные права доступа
+    chmod 600 certs/jwt-private.pem
+    chmod 644 certs/jwt-public.pem
+    print_success "Права доступа к сертификатам установлены"
+fi
+
+# Проверяем наличие .env файла
+if [ ! -f ".env" ]; then
+    print_warning "Файл .env не найден!"
+    print_status "Создаем файл .env с настройками окружения..."
+    cp .env.example .env
+    echo ""
+fi
+
+# Инициализация проекта
+print_status "Инициализируем проект с помощью uv..."
+if uv sync; then
+    print_success "Зависимости установлены успешно"
+else
+    print_error "Ошибка при установке зависимостей"
+    exit 1
+fi
+
+print_success "Установка завершена!"
+echo ""
+print_status "Следующие шаги:"
+echo "1. Заполните параметры в файле .env"
+echo "2. Запустите базу данных: docker-compose up pg -d"
+echo "3. Примените миграции: ./alembic.sh upgrade head"
+echo "4. Запустите сервер: uv run main.py"
