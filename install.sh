@@ -104,7 +104,13 @@ fi
 if [ ! -f ".env" ]; then
     print_warning "Файл .env не найден!"
     print_status "Создаем файл .env с настройками окружения..."
-    cp .env.example .env
+    if cp .env.example .env; then
+        print_success "Файл .env создан успешно из .env.example"
+    else
+        print_error "Ошибка при создании файла .env"
+        print_error "Убедитесь, что файл .env.example существует"
+        exit 1
+    fi
     echo ""
 fi
 
@@ -116,6 +122,29 @@ else
     print_error "Ошибка при установке зависимостей"
     exit 1
 fi
+
+print_status "Проверяем и устанавливаем права доступа для скриптов..."
+
+# Список скриптов для проверки
+scripts=("alembic.sh" "create_env_example.sh" "install.sh")
+
+for script in "${scripts[@]}"; do
+    if [ -f "$script" ]; then
+        if [ ! -x "$script" ]; then
+            print_status "Устанавливаем права на выполнение для $script..."
+            if chmod +x "$script"; then
+                print_success "Права доступа установлены для $script"
+            else
+                print_error "Ошибка при установке прав доступа для $script"
+                exit 1
+            fi
+        else
+            print_success "$script уже имеет права на выполнение"
+        fi
+    else
+        print_warning "Скрипт $script не найден"
+    fi
+done
 
 print_success "Установка завершена!"
 echo ""
