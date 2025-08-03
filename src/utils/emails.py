@@ -6,6 +6,9 @@ from jinja2 import Environment, FileSystemLoader
 from src.config import settings
 import os
 
+# Определяем публичный API модуля
+__all__ = ["send_verification_code"]
+
 
 template_dir = settings.mail.templates_path
 

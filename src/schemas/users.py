@@ -25,3 +25,22 @@ class UserCreateOut(BaseModel):
 class UserRead(BaseModel):
     id: UUID
     email: str
+
+
+class EmailVerificationIn(BaseModel):
+    id: UUID
+    email: EmailStr
+
+
+class EmailVerificationOut(BaseModel):
+    message: str
+
+
+class VerifyCodeIn(BaseModel):
+    email: EmailStr
+    code: str
+
+
+class VerifyCodeOut(BaseModel):
+    verified: bool
+    message: str

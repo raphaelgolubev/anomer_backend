@@ -1,6 +1,7 @@
 from typing import Sequence
+from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database.tables import User
@@ -28,3 +29,51 @@ async def create_user(
     await session.refresh(user)
 
     return user
+
+
+async def is_user_exists(
+    session: AsyncSession,
+    user_id: UUID
+) -> bool:
+    stmt = select(User).where(User.id == user_id)
+    result = await session.scalar(stmt)
+    return result is not None
+
+
+async def is_user_email_verified(
+    session: AsyncSession,
+    user_id: UUID
+) -> bool:
+    stmt = select(User).where(User.id == user_id)
+    result = await session.scalar(stmt)
+    return result.is_email_verified
+
+
+async def verify_user_email(
+    session: AsyncSession,
+    email: str
+) -> bool:
+    """
+    Обновляет статус верификации email пользователя
+    
+    Args:
+        session: Сессия базы данных
+        email: Email пользователя
+        
+    Returns:
+        bool: True если статус успешно обновлен
+    """
+    try:
+        stmt = (
+            update(User)
+            .where(User.email == email)
+            .values(is_email_verified=True)
+        )
+        result = await session.execute(stmt)
+        await session.commit()
+        
+        return result.rowcount > 0
+    except Exception as e:
+        await session.rollback()
+        print(f"Database error: {e}")
+        return False
