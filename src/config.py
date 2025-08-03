@@ -28,6 +28,12 @@ class ModelConfig:
         return config
 
 
+class ApiV1Config(BaseModel):
+    prefix: str = "/v1"
+    auth: str = "/auth"
+    users: str = "/users"
+
+
 class SecuritySettings(BaseSettings):
     secret_pem_file: Path = Field(
         alias="SECURITY_PRIVATE_JWT", default=Path("certs/jwt-private.pem")
@@ -76,11 +82,6 @@ class DatabaseSettings(BaseSettings):
     model_config = ModelConfig(env_prefix="DB_")
 
 
-class ApiV1Config(BaseModel):
-    prefix: str = "/v1"
-    auth: str = "/auth"
-    users: str = "/users"
-
 
 class MailSettings(BaseSettings):
     port: int = 465
@@ -90,6 +91,16 @@ class MailSettings(BaseSettings):
     templates_path: Path
 
     model_config = ModelConfig(env_prefix="MAIL_")
+
+
+class RedisSettings(BaseSettings):
+    host: str = "localhost"
+    port: int = 6379
+    db: int = 0
+    password: str | None = None
+    verification_code_ttl: int = 300  # 5 минут в секундах
+
+    model_config = ModelConfig(env_prefix="REDIS_")
 
 
 class AppSettings(BaseSettings):
@@ -105,6 +116,7 @@ class Settings:
     server = ServerSettings()
     db = DatabaseSettings()
     mail = MailSettings()
+    redis = RedisSettings()
 
 
 settings = Settings()
