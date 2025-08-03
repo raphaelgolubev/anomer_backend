@@ -1,4 +1,4 @@
-import aioredis
+import redis.asyncio as redis
 from src.config import settings
 
 
@@ -6,13 +6,22 @@ class RedisClient:
     """Клиент для работы с Redis"""
     
     def __init__(self):
-        self.redis = aioredis.Redis(
-            host=settings.redis.host,
-            port=settings.redis.port,
-            db=settings.redis.db,
-            password=settings.redis.password,
-            decode_responses=True
-        )
+        redis_kwargs = {
+            "host": settings.redis.host,
+            "port": settings.redis.port,
+            "db": settings.redis.db,
+            "decode_responses": True
+        }
+        
+        # Добавляем username если указан
+        if settings.redis.username:
+            redis_kwargs["username"] = settings.redis.username
+            
+        # Добавляем password если указан
+        if settings.redis.password:
+            redis_kwargs["password"] = settings.redis.password
+            
+        self.redis = redis.Redis(**redis_kwargs)
     
     async def set_verification_code(self, email: str, code: str) -> bool:
         """
