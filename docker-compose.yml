@@ -7,6 +7,8 @@ networks:
 volumes:
   db_volume:
     name: postgres_data
+  redis_volume:
+    name: redis_data
 
 services:
   pg:
@@ -34,4 +36,20 @@ services:
       # Максимальное время ожидания ответа от проверки (5 секунд).
       timeout: 5s
       # Сколько раз подряд должна завершиться неудачей, чтобы контейнер считался unhealthy.
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: anomer_redis
+    restart: "unless-stopped"
+    networks:
+      - local_network
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_volume:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
       retries: 5
