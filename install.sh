@@ -126,7 +126,7 @@ fi
 print_status "Проверяем и устанавливаем права доступа для скриптов..."
 
 # Список скриптов для проверки
-scripts=("alembic.sh" "create_env_example.sh" "install.sh")
+scripts=("alembic.sh" "create_env_example.sh" "install.sh", "create_redis_conf.sh")
 
 for script in "${scripts[@]}"; do
     if [ -f "$script" ]; then
@@ -146,10 +146,18 @@ for script in "${scripts[@]}"; do
     fi
 done
 
+print_status "Создаем redis.conf..."
+if ./create_redis_conf.sh; then
+    print_success "redis.conf создан успешно"
+else
+    print_error "Ошибка при создании redis.conf"
+    exit 1
+fi
+
 print_success "Установка завершена!"
 echo ""
 print_status "Следующие шаги:"
 echo "1. Заполните параметры в файле .env"
-echo "2. Запустите базу данных: docker-compose up pg -d"
+echo "2. Запустите Postgres и Redis: docker-compose up pg redis -d --build"
 echo "3. Примените миграции: ./alembic.sh upgrade head"
 echo "4. Запустите сервер: uv run main.py"
