@@ -12,17 +12,13 @@ class RedisClient:
             "db": settings.redis.db,
             "decode_responses": True
         }
-        
-        # Добавляем username если указан
-        if settings.redis.username:
-            redis_kwargs["username"] = settings.redis.username
-            
+
         # Добавляем password если указан
         if settings.redis.password:
             redis_kwargs["password"] = settings.redis.password
-            
+
         self.redis = redis.Redis(**redis_kwargs)
-    
+
     async def set_verification_code(self, email: str, code: str) -> bool:
         """
         Сохраняет код верификации для email с TTL

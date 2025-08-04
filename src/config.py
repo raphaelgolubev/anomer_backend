@@ -97,7 +97,6 @@ class RedisSettings(BaseSettings):
     host: str = "localhost"
     port: int = 6379
     db: int = 0
-    username: str | None = None
     password: str | None = None
     verification_code_ttl: int = 300  # 5 минут в секундах
 
