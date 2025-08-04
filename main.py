@@ -5,7 +5,7 @@ from src.config import settings
 
 def main():
     uvicorn.run(
-        app="src.app:main_app",
+        app="src.app:app",
         host=settings.server.host,
         port=settings.server.port,
         lifespan="on",
