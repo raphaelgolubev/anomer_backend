@@ -1,5 +1,5 @@
 [project]
-name = "anomer-backend"
+name = "anomer_backend"
 version = "0.0.1"
 description = "Backend server implementation for iOS application Anomer"
 readme = "README.md"
