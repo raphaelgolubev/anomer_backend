@@ -1,5 +1,11 @@
 # Anomer backend
 
+<p align="center">
+  <img src="docs/logo.svg" alt="Project Logo" width="120" height="120">
+</p>
+
+<p align="center">Cute cat ^-^</p>
+
 ![Static Badge](https://img.shields.io/badge/raphael_golubev-anomer-5ad1e6)
 ![GitHub Created At](https://img.shields.io/github/created-at/raphaelgolubev/anomer_backend)
 ![GitHub](https://img.shields.io/github/license/raphaelgolubev/anomer_backend)
@@ -9,13 +15,9 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend)
 
 
-
-<p align="left">
-  <img src="docs/logo.svg" alt="Project Logo" width="120" height="120">
-</p>
-
 **A***nother* **N***ew* **O***nline* **ME***ssenge***R**
 
+Зависимости:
 - Python >= 3.12.3
 - uv >= 0.8.4 (Homebrew)
 - FastAPI >=0.115.14
