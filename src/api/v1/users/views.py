@@ -1,4 +1,5 @@
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import Depends, APIRouter, HTTPException
 
@@ -7,8 +8,10 @@ from sqlalchemy.exc import IntegrityError
 
 import src.database.crud.users as crud
 from src.database import database
+from src.database.tables import User
 from src.security.hashing_encoding import hash_password
 import src.schemas.users as scheme
+import src.api.v1.auth.service as auth_service
 import src.api.v1.users.service as service
 
 
@@ -114,10 +117,20 @@ async def get_all_users(
     return users
 
 
-# @router.get("/me/")
-# async def get_current_user(
-#     payload: Annotated[dict, Depends(validator.get_current_user_token_payload)],
-#     user: Annotated[scheme.UserCredentials, Depends(validator.get_current_active_auth_user)],
-# ):
-#     iat = payload.get("iat")
-#     return {"logged_in_at": iat, "username": user.username, "email": user.email}
+@router.get("/me/")
+async def get_current_user(
+    user: Annotated[User | None, Depends(auth_service.get_current_auth_user_for_access)]
+) -> scheme.UserRead:
+    return user
+
+
+@router.delete("/delete/{user_id}")
+async def delete_user(
+    user_id: UUID,
+    session: Annotated[AsyncSession, Depends(database.session_getter)]
+) -> scheme.UserDeleteOut:
+    deleted = await crud.delete_user(session=session, user_id=user_id)
+    return scheme.UserDeleteOut(is_deleted=deleted)
+
+
+
