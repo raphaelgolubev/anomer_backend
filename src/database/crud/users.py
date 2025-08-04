@@ -1,11 +1,21 @@
 from typing import Sequence
 from uuid import UUID
 
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database.tables import User
 import src.schemas.users as scheme 
+
+
+async def get_user(
+    session: AsyncSession,
+    email: str
+) -> User:
+    stmt = select(User).where(User.email == email)
+    result = await session.scalar(stmt)
+
+    return result
 
 
 async def get_all_users(
@@ -77,3 +87,13 @@ async def verify_user_email(
         await session.rollback()
         print(f"Database error: {e}")
         return False
+
+
+async def delete_user(
+    session: AsyncSession,
+    user_id: UUID
+) -> bool:
+    stmt = delete(User).where(User.id == user_id)
+    result = await session.execute(stmt)
+    await session.commit()
+    return result.rowcount > 0
