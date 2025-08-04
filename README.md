@@ -1,12 +1,32 @@
 # Anomer backend
+
+![Static Badge](https://img.shields.io/badge/raphael_golubev-anomer-5ad1e6)
+![GitHub Created At](https://img.shields.io/github/created-at/raphaelgolubev/anomer_backend)
+![GitHub](https://img.shields.io/github/license/raphaelgolubev/anomer_backend)
+
+![GitHub top language](https://img.shields.io/github/languages/top/raphaelgolubev/anomer_backend)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/raphaelgolubev/anomer_backend?color=green)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend)
+
+
+
 <p align="left">
   <img src="docs/logo.svg" alt="Project Logo" width="120" height="120">
 </p>
 
 **A***nother* **N***ew* **O***nline* **ME***ssenge***R**
 
-- Python 3.12.3+
-- FastAPI
+- Python >= 3.12.3
+- uv >= 0.8.4 (Homebrew)
+- FastAPI >=0.115.14
+- Uvicorn >= 2.0.41
+- async SQLAlchemy >= 2.0.41
+- Alembic >= 1.16.4
+
+# Описание
+```python
+raise NotImplementedError
+```
 
 # Установка
 
@@ -124,6 +144,22 @@ raise NotImplementedError
 ```python
 raise NotImplementedError
 ```
+
+<!--описание коммитов-->
+# Описание коммитов
+| Название | Описание                                                        |
+|----------|-----------------------------------------------------------------|
+| build	   | Сборка проекта или изменения внешних зависимостей               |
+| sec      | Безопасность, уязвимости                                        |
+| ci       | Настройка CI и работа со скриптами                              |
+| docs	   | Обновление документации                                         |
+| feat	   | Добавление нового функционала                                   |
+| fix	     | Исправление ошибок                                              |
+| perf	   | Изменения направленные на улучшение производительности          |
+| refactor | Правки кода без исправления ошибок или добавления новых функций |
+| revert   | Откат на предыдущие коммиты                                     |
+| style	   | Правки по кодстайлу (табы, отступы, точки, запятые и т.д.)      |
+| test	   | Добавление тестов                                               |
 
 # License
 

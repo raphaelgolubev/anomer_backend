@@ -1,6 +1,6 @@
 [project]
 name = "anomer_backend"
-version = "0.0.1"
+version = "0.0.2"
 description = "Backend server implementation for iOS application Anomer"
 readme = "README.md"
 requires-python = ">=3.12.3"
