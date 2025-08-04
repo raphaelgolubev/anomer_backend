@@ -92,6 +92,6 @@ def verify_password(password: str, hashed_password: str) -> bool:
         `bool`: True, если пароль совпадает с хешированным паролем, False в противном случае
     """
     return bcrypt.checkpw(
-        password=password.encode("utf-8"), 
-        hashed_password=hashed_password.encode("utf-8")
+        password=password.encode("utf-8"),
+        hashed_password=hashed_password.encode("utf-8"),
     )

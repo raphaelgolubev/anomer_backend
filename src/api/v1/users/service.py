@@ -7,7 +7,7 @@ from src.utils.redis_client import redis_client
 
 def generate_verification_code():
     """Генерирует 6-значный код для верификации"""
-    return ''.join(random.choices(string.digits, k=6))
+    return "".join(random.choices(string.digits, k=6))
 
 
 async def send_verification_email(email: str) -> bool:

@@ -29,8 +29,12 @@ class User(Base, UuidMixin, TimestampMixin):
     password: Mapped[str] = mapped_column(nullable=False)
     """Хэшированный пароль"""
 
-    role: Mapped[str] = mapped_column(nullable=False, default="USER", server_default="USER")
+    role: Mapped[str] = mapped_column(
+        nullable=False, default="USER", server_default="USER"
+    )
     """ Уровень доступа """
 
-    is_email_verified: Mapped[bool] = mapped_column(nullable=False, default=False, server_default="FALSE")
+    is_email_verified: Mapped[bool] = mapped_column(
+        nullable=False, default=False, server_default="FALSE"
+    )
     """ Флаг, указывающий подтвердил ли пользователь электронную почту """

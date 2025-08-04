@@ -16,8 +16,8 @@ router = APIRouter(tags=["Авторизация"])
 
 async def get_login_credentials(
     session: Annotated[AsyncSession, Depends(database.session_getter)],
-    username: str = Form(), 
-    password: str = Form()
+    username: str = Form(),
+    password: str = Form(),
 ) -> User:
     unauthorized_exc = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверные учетные данные"
@@ -37,11 +37,13 @@ async def get_login_credentials(
 
 
 @router.post("/login/", response_model=TokenInfo)
-async def login(
-    user: Annotated[User, Depends(get_login_credentials)],
-):
-    access_token = tokens.create_token(user=user, token_type=tokens.TokenType.ACCESS_TOKEN_TYPE)
-    refresh_token = tokens.create_token(user=user, token_type=tokens.TokenType.REFRESH_TOKEN_TYPE)
+async def login(user: Annotated[User, Depends(get_login_credentials)]):
+    access_token = tokens.create_token(
+        user=user, token_type=tokens.TokenType.ACCESS_TOKEN_TYPE
+    )
+    refresh_token = tokens.create_token(
+        user=user, token_type=tokens.TokenType.REFRESH_TOKEN_TYPE
+    )
 
     return TokenInfo(access_token=access_token, refresh_token=refresh_token)
 
@@ -66,18 +68,19 @@ async def test_refresh_token(
 
 @router.post("/refresh/", response_model=TokenInfo)
 async def refresh_token(
-    user: Annotated[
-        User | None, Depends(service.get_current_auth_user_for_refresh)
-    ],
+    user: Annotated[User | None, Depends(service.get_current_auth_user_for_refresh)],
 ):
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Неверный тип токена"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный тип токена"
         )
 
-    access_token = tokens.create_token(user=user, token_type=tokens.TokenType.ACCESS_TOKEN_TYPE)
-    refresh_token = tokens.create_token(user=user, token_type=tokens.TokenType.REFRESH_TOKEN_TYPE)
+    access_token = tokens.create_token(
+        user=user, token_type=tokens.TokenType.ACCESS_TOKEN_TYPE
+    )
+    refresh_token = tokens.create_token(
+        user=user, token_type=tokens.TokenType.REFRESH_TOKEN_TYPE
+    )
 
     return TokenInfo(access_token=access_token, refresh_token=refresh_token)
 
@@ -88,8 +91,7 @@ async def logout(
 ):
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Неверный тип токена"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный тип токена"
         )
 
     return {"message": f"Logout placeholder for {user.email}"}

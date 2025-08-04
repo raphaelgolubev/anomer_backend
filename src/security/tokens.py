@@ -16,7 +16,7 @@ def create_jwt(token_type: TokenType, token_data: dict) -> str:
     """
     Создает JWT токен и добавляет в него информацию о типе токена
     в поле "type".
-    
+
     Пример токена:
     ```json
     {
@@ -72,7 +72,5 @@ def create_token(user: User, token_type: TokenType) -> str:
     Returns:
         `str`: JWT токен
     """
-    jwt_payload = {
-        "sub": user.email,
-    }
+    jwt_payload = {"sub": user.email}
     return create_jwt(token_type=token_type, token_data=jwt_payload)

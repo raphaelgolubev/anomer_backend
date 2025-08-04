@@ -17,11 +17,11 @@ template_dir = settings.mail.templates_path
 def render_html(filename: str, **template_args) -> str:
     """
     Рендерит HTML-шаблон с заданными аргументами.
-    
+
     Args:
         filename (str): Имя файла шаблона.
         **template_args: Аргументы для передачи в шаблон.
-    
+
     Returns:
         str: Сгенерированный HTML-контент.
     """
@@ -35,10 +35,10 @@ def render_html(filename: str, **template_args) -> str:
 def get_logo(css_class_to_add: str | None) -> str:
     """
     Возвращает содержимое файла logo.svg с добавленным CSS классом, если он указан.
-    
+
     Args:
         css_class_to_add (str | None): CSS класс для добавления к SVG логотипу.
-    
+
     Returns:
         str: Содержимое файла logo.svg с добавленным CSS классом.
     """
@@ -47,20 +47,17 @@ def get_logo(css_class_to_add: str | None) -> str:
         logo_svg = f.read()
 
     if css_class_to_add:
-        logo_svg = logo_svg.replace('<svg', f'<svg class=\"{css_class_to_add}\"', 1)
+        logo_svg = logo_svg.replace("<svg", f'<svg class="{css_class_to_add}"', 1)
     return logo_svg
 
 
-async def send_verification_code(
-    to_email: str, 
-    code: str
-) -> bool:
+async def send_verification_code(to_email: str, code: str) -> bool:
     # Настройка Jinja2
     html_content = render_html(
         filename="verification.html",
         code=code,
         app_name=settings.app.name,
-        logo_svg=get_logo(css_class_to_add="logo-svg")
+        logo_svg=get_logo(css_class_to_add="logo-svg"),
     )
 
     # Формируем письмо с HTML, plain text и embedded image
@@ -82,7 +79,7 @@ async def send_verification_code(
             port=settings.mail.port,
             username=settings.mail.sender,
             password=settings.mail.password,
-            use_tls=True
+            use_tls=True,
         ) as client:
             await client.send_message(message)
             print("email успешно отправлен")

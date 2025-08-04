@@ -82,7 +82,6 @@ class DatabaseSettings(BaseSettings):
     model_config = ModelConfig(env_prefix="DB_")
 
 
-
 class MailSettings(BaseSettings):
     port: int = 465
     hostname: str

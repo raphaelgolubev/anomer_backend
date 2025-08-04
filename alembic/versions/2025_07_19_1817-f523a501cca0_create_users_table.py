@@ -30,7 +30,12 @@ def upgrade() -> None:
         sa.Column("email", sa.String(), nullable=False),
         sa.Column("password", sa.String(), nullable=False),
         sa.Column("role", sa.String(), nullable=False),
-        sa.Column("is_email_verified", sa.Boolean(), nullable=False, server_default=sa.text("false")),
+        sa.Column(
+            "is_email_verified",
+            sa.Boolean(),
+            nullable=False,
+            server_default=sa.text("false"),
+        ),
         sa.Column(
             "created_at",
             sa.DateTime(),
