@@ -25,6 +25,10 @@ class UserCreateOut(BaseModel):
 class UserRead(BaseModel):
     id: UUID
     email: str
+    
+    
+class UserDeleteOut(BaseModel):
+    is_deleted: bool
 
 
 class EmailVerificationIn(BaseModel):
