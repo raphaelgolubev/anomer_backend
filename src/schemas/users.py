@@ -1,7 +1,6 @@
-from typing import Annotated
 from uuid import UUID
 
-from pydantic import Field, EmailStr, BaseModel, ConfigDict
+from pydantic import EmailStr, BaseModel
 
 
 class UserCreateIn(BaseModel):

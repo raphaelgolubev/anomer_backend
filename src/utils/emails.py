@@ -1,10 +1,11 @@
-import aiosmtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from jinja2 import Environment, FileSystemLoader
-from src.config import settings
 import os
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+import aiosmtplib
+from jinja2 import Environment, FileSystemLoader
+
+from src.config import settings
 
 # Определяем публичный API модуля
 __all__ = ["send_verification_code"]

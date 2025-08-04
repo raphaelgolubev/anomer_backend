@@ -1,12 +1,11 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jwt.exceptions import InvalidTokenError
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from src.security import tokens, hashing_encoding
 from src.database import database
+from src.security import tokens, hashing_encoding
 from src.database.crud import users
 from src.database.tables import User
-
 
 http_bearer = HTTPBearer()
 

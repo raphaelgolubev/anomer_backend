@@ -1,19 +1,17 @@
-from typing import Annotated
 from uuid import UUID
+from typing import Annotated
 
 from fastapi import Depends, APIRouter, HTTPException
-
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
+import src.schemas.users as scheme
+import src.api.v1.auth.service as auth_service
 import src.database.crud.users as crud
+import src.api.v1.users.service as service
 from src.database import database
 from src.database.tables import User
 from src.security.hashing_encoding import hash_password
-import src.schemas.users as scheme
-import src.api.v1.auth.service as auth_service
-import src.api.v1.users.service as service
-
 
 router = APIRouter(tags=["Пользователи"])
 

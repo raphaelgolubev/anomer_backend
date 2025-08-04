@@ -2,9 +2,9 @@ from sqlalchemy import MetaData
 from sqlalchemy.orm import Mapped, DeclarativeBase, declared_attr, mapped_column
 
 from src.config import settings
+from src.utils.case_converter import camel_case_to_snake_case
 from src.database.mixins.uuid_id_pk_mixin import UuidMixin
 from src.database.mixins.created_updated_at_mixin import TimestampMixin
-from src.utils.case_converter import camel_case_to_snake_case
 
 
 class Base(DeclarativeBase):

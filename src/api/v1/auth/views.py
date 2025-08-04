@@ -6,11 +6,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import src.security.tokens as tokens
 import src.api.v1.auth.service as service
 import src.security.hashing_encoding as jwt_utils
-
-from src.database.crud import users
 from src.database import database
-from src.database.tables import User
 from src.schemas.auth import TokenInfo
+from src.database.crud import users
+from src.database.tables import User
 
 router = APIRouter(tags=["Авторизация"])
 

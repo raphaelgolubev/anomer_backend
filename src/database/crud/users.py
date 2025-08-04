@@ -1,11 +1,11 @@
-from typing import Sequence
 from uuid import UUID
+from typing import Sequence
 
 from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
+import src.schemas.users as scheme
 from src.database.tables import User
-import src.schemas.users as scheme 
 
 
 async def get_user(

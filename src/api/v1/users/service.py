@@ -1,5 +1,6 @@
 import random
 import string
+
 from src.utils.emails import send_verification_code
 from src.utils.redis_client import redis_client
 
