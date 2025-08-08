@@ -147,6 +147,57 @@ raise NotImplementedError
 raise NotImplementedError
 ```
 
+# Отладка
+В `Visual Studio Code` (или его форках, например `Cursor`) IDE добавьте следующую конфигурацию в `launch.json`:
+```json
+{
+    "name": "Debugger: FastAPI app",
+    "type": "debugpy",
+    "request": "launch",
+    "module": "uvicorn",
+    "args": [
+        "src.app:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8001"
+    ],
+    "jinja": false,
+    "envFile": "${workspaceFolder}/.env"
+}
+```
+Если Вы хотите добавить конфигурацию только для этого проекта, тогда создайте директорию `.vscode` в корневой папке:
+```shell
+mkdir .vscode
+```
+Создайте файл launch.json:
+```shell
+touch launch.json
+```
+И поместите в этот файл следующее содержимое:
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debugger: FastAPI app",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "src.app:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8001"
+            ],
+            "jinja": false,
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
+```
+
 <!--описание коммитов-->
 # Описание коммитов
 | Название | Описание                                                        |
