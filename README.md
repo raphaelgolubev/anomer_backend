@@ -1,29 +1,25 @@
-# Anomer backend
-
 <p align="center">
-  <img src="docs/logo.svg" alt="Project Logo" width="120" height="120">
+  <img src="docs/logo.svg" width="128" height="128">
+  <h1 align="center">Anomer (backend)</h1>
+  <p align="center"> Another New Online MEssengeR</p>
 </p>
 
-<p align="center">Cute cat ^-^</p>
+<p align="center">
+  <img alt="Static Badge" src="https://img.shields.io/badge/raphael_golubev-anomer-5ad1e6">
+  <img alt="GitHub Created At" src="https://img.shields.io/github/created-at/raphaelgolubev/anomer_backend">
+  <img alt="GitHub" src="https://img.shields.io/github/license/raphaelgolubev/anomer_backend">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/raphaelgolubev/anomer_backend">
+  <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/t/raphaelgolubev/anomer_backend?color=green">
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend">
+</p>
 
-![Static Badge](https://img.shields.io/badge/raphael_golubev-anomer-5ad1e6)
-![GitHub Created At](https://img.shields.io/github/created-at/raphaelgolubev/anomer_backend)
-![GitHub](https://img.shields.io/github/license/raphaelgolubev/anomer_backend)
+<!-- ![Static Badge](https://img.shields.io/badge/raphael_golubev-anomer-5ad1e6) -->
+<!-- ![GitHub Created At](https://img.shields.io/github/created-at/raphaelgolubev/anomer_backend) -->
+<!-- ![GitHub](https://img.shields.io/github/license/raphaelgolubev/anomer_backend) -->
 
-![GitHub top language](https://img.shields.io/github/languages/top/raphaelgolubev/anomer_backend)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/t/raphaelgolubev/anomer_backend?color=green)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend)
-
-
-**A***nother* **N***ew* **O***nline* **ME***ssenge***R**
-
-Зависимости:
-- Python >= 3.12.3
-- uv >= 0.8.4 (Homebrew)
-- FastAPI >=0.115.14
-- Uvicorn >= 2.0.41
-- async SQLAlchemy >= 2.0.41
-- Alembic >= 1.16.4
+<!-- ![GitHub top language](https://img.shields.io/github/languages/top/raphaelgolubev/anomer_backend) -->
+<!-- ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/raphaelgolubev/anomer_backend?color=green) -->
+<!-- ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend) -->
 
 # Описание
 ```python
