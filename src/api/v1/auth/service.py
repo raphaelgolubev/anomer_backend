@@ -69,7 +69,7 @@ async def get_payload_from_token(
         )
 
     # Проверяем, не находится ли токен в черном списке
-    jti = payload.get("jti")
+    jti = payload.get(tokens.TOKEN_ID_FIELD)
     if jti:
         async with database.session_factory() as session:
             if await blacklisted_tokens.is_token_blacklisted(session=session, jti=jti):
