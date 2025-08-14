@@ -1,5 +1,6 @@
-from sqlalchemy import MetaData
-from sqlalchemy.orm import Mapped, DeclarativeBase, declared_attr, mapped_column
+from sqlalchemy import MetaData, ForeignKey, String, DateTime
+from sqlalchemy.orm import Mapped, DeclarativeBase, declared_attr, mapped_column, relationship
+from datetime import datetime
 
 from src.config import settings
 from src.utils.case_converter import camel_case_to_snake_case
@@ -38,3 +39,27 @@ class User(Base, UuidMixin, TimestampMixin):
         nullable=False, default=False, server_default="FALSE"
     )
     """ Флаг, указывающий подтвердил ли пользователь электронную почту """
+    
+    # Связь с деактивированными токенами
+    blacklisted_tokens: Mapped[list["BlacklistedToken"]] = relationship(
+        "BlacklistedToken", back_populates="user", cascade="all, delete-orphan"
+    )
+
+
+class BlacklistedToken(Base, UuidMixin, TimestampMixin):
+    """Таблица для черного списка токенов (деактивированные токены)"""
+
+    jti: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    """ JWT ID - уникальный идентификатор токена """
+    
+    token_type: Mapped[str] = mapped_column(String(50), nullable=False)
+    """ Тип токена (access, refresh) """
+    
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
+    """ ID пользователя, которому принадлежал токен """
+    
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    """ Время истечения токена (для автоматической очистки) """
+    
+    # Связь с пользователем
+    user: Mapped["User"] = relationship("User", back_populates="blacklisted_tokens")
