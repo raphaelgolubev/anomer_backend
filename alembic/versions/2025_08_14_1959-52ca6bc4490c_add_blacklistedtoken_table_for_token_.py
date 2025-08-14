@@ -6,11 +6,11 @@ Create Date: 2025-08-14 19:59:38.630433
 
 """
 
-from typing import Sequence, Union
+from typing import Union, Sequence
 
-from alembic import op
 import sqlalchemy as sa
 
+from alembic import op
 
 revision: str = "52ca6bc4490c"
 down_revision: Union[str, Sequence[str], None] = "f523a501cca0"

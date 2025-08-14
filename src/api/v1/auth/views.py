@@ -5,11 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 import src.security.tokens as tokens
 import src.api.v1.auth.service as service
-from src.schemas.auth import TokenInfo
-from src.database.tables import User
-from src.database.crud import blacklisted_tokens
 from src.database import database
-
+from src.schemas.auth import TokenInfo
+from src.database.crud import blacklisted_tokens
+from src.database.tables import User
 
 router = APIRouter(tags=["Авторизация"])
 

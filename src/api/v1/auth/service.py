@@ -1,8 +1,8 @@
 from typing import Annotated
+
 from fastapi import Form, Depends, HTTPException, status
 from jwt.exceptions import InvalidTokenError
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import database

@@ -1,12 +1,13 @@
-from sqlalchemy import MetaData, ForeignKey, String, DateTime
+from datetime import datetime
+
+from sqlalchemy import String, DateTime, MetaData, ForeignKey
 from sqlalchemy.orm import (
     Mapped,
     DeclarativeBase,
+    relationship,
     declared_attr,
     mapped_column,
-    relationship,
 )
-from datetime import datetime
 
 from src.config import settings
 from src.utils.case_converter import camel_case_to_snake_case

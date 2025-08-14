@@ -1,5 +1,5 @@
-from enum import Enum
 import uuid
+from enum import Enum
 from datetime import datetime, timezone
 
 import src.security.hashing_encoding as jwt_utils
