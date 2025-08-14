@@ -1,13 +1,41 @@
-from fastapi import Depends, HTTPException, status
+from typing import Annotated
+from fastapi import Form, Depends, HTTPException, status
 from jwt.exceptions import InvalidTokenError
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.database import database
 from src.security import tokens, hashing_encoding
-from src.database.crud import users
+from src.database.crud import users, blacklisted_tokens
 from src.database.tables import User
 
 http_bearer = HTTPBearer()
+
+
+async def get_login_credentials(
+    session: Annotated[AsyncSession, Depends(database.session_getter)],
+    username: str = Form(),
+    password: str = Form(),
+) -> User:
+    """ 
+    Создает форму `x-www-form-urlencode`.
+    """
+    unauthorized_exc = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверные учетные данные"
+    )
+    if not (user := await users.get_user(session=session, email=username)):
+        raise unauthorized_exc
+
+    if not hashing_encoding.verify_password(password=password, hashed_password=user.password):
+        raise unauthorized_exc
+
+    if not user.is_email_verified:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Пользователь не активен"
+        )
+
+    return user
 
 
 async def get_payload_from_token(
@@ -15,12 +43,13 @@ async def get_payload_from_token(
 ) -> dict:
     """
     Получает текущего авторизованного пользователя из токена в заголовке `Authorization`.
+    Проверяет, что токен не находится в черном списке.
 
     Args:
         - `http_creds`: заголовок Authorization в формате `Bearer <token>`
 
     Raises:
-        - `HTTPException`: если токен недействителен.
+        - `HTTPException`: если токен недействителен или деактивирован.
 
     Returns:
         `dict`: payload токена.
@@ -38,6 +67,16 @@ async def get_payload_from_token(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Ошибка декодирования токена: {e}",
         )
+
+    # Проверяем, не находится ли токен в черном списке
+    jti = payload.get("jti")
+    if jti:
+        async with database.session_factory() as session:
+            if await blacklisted_tokens.is_token_blacklisted(session=session, jti=jti):
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Токен деактивирован",
+                )
 
     return payload
 
