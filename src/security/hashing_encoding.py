@@ -1,3 +1,5 @@
+""" Набор функций хэширования, кодирования, декодирования и верификации хэша """
+
 from datetime import datetime, timezone, timedelta
 
 import jwt
@@ -14,7 +16,9 @@ def encode_jwt(
     expire_minutes: int | None = None,
 ):
     """
-    Кодирует payload в JWT токен
+    Кодирует payload в JWT токен. Добавляет в payload поля:
+    - `exp` (expire) - время истечения токена
+    - `iat` (issued_at) - время создания токена
 
     Args:
         - `payload`: данные токена
@@ -37,7 +41,7 @@ def encode_jwt(
         raise ValueError(
             "Не передан ни один из параметров 'expire_timedelta', 'expire_minutes'"
         )
-
+    # добавляем поля expire (когда истекает) и issued_at (когда создан)
     to_encode.update(exp=expire, iat=now)
 
     encoded = jwt.encode(to_encode, private_key, algorithm=algorithm)
@@ -50,7 +54,8 @@ def decode_jwt(
     algorithm: str = settings.security.algorithm,
 ) -> dict:
     """
-    Декодирует JWT токен
+    Декодирует JWT токен с использованием публичного ключа.
+    Возвращает payload, полученный из токена.
 
     Args:
         - `token`: JWT токен
@@ -66,7 +71,8 @@ def decode_jwt(
 
 def hash_password(password: str) -> bytes:
     """
-    Хеширует пароль
+    Хеширует пароль с добавлением рандомой соли.
+    Возвращает хэш пароля в байтах.
 
     Args:
         - `password`: пароль
@@ -74,15 +80,17 @@ def hash_password(password: str) -> bytes:
     Returns:
         `bytes`: хешированный пароль
     """
+    # генерируем соль
     salt = bcrypt.gensalt()
+    # получаем пароль, кастим в байты
     pwd_bytes: bytes = password.encode("utf-8")
-
+    # хэшируем пароль используя соль
     return bcrypt.hashpw(pwd_bytes, salt)
 
 
 def verify_password(password: str, hashed_password: str) -> bool:
     """
-    Проверяет, совпадает ли пароль с хешированным паролем
+    Проверяет, совпадает ли хэш пароля `password` с хэшем `hashed_password`.
 
     Args:
         - `password`: пароль
