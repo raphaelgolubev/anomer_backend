@@ -1,10 +1,13 @@
 from enum import Enum
+import uuid
+from datetime import datetime, timezone
 
 import src.security.hashing_encoding as jwt_utils
 from src.config import settings
 from src.database.tables import User
 
 TOKEN_TYPE_FIELD = "type"
+TOKEN_ID_FIELD = "jti"
 
 
 class TokenType(Enum):
@@ -12,28 +15,37 @@ class TokenType(Enum):
     REFRESH_TOKEN_TYPE = "refresh"
 
 
-def create_jwt(token_type: TokenType, token_data: dict) -> str:
+def create_token(user: User, token_type: TokenType) -> str:
     """
-    Создает JWT токен и добавляет в него информацию о типе токена
-    в поле "type".
+    Создает JWT токен и добавляет в него: 
+    - информацию о пользователе в поле "sub"
+    - информацию о типе токена в поле "type" 
+    - уникальный идентификатор токена в поле "jti".
 
     Пример токена:
     ```json
     {
-        "type": <token_type>,
-        <token_data>,
+        "sub": "user@example.com",
+        "type": "access",
+        "jti": "unique-token-id"
     }
     ```
 
     Args:
+        - `user`: пользователь
         - `token_type`: тип токена
-        - `token_data`: данные токена
 
     Returns:
         `str`: JWT токен
     """
-    jwt_payload = {TOKEN_TYPE_FIELD: token_type.value}
-    jwt_payload.update(token_data)
+    # Генерируем уникальный идентификатор для токена
+    jti = str(uuid.uuid4())
+
+    jwt_payload = {
+        TOKEN_TYPE_FIELD: token_type.value,
+        TOKEN_ID_FIELD: jti,
+        "sub": user.email
+    }
 
     match token_type:
         case TokenType.ACCESS_TOKEN_TYPE:
@@ -52,25 +64,23 @@ def create_jwt(token_type: TokenType, token_data: dict) -> str:
             raise ValueError(f"Unknown token type: {token_type}")
 
 
-def create_token(user: User, token_type: TokenType) -> str:
+def get_token_expire_time_from_payload(payload: dict) -> datetime:
     """
-    Создает JWT токен и добавляет в него информацию о пользователе в
-    поле "sub", информацию о типе токена в поле "type".
-
-    Пример токена:
-    ```json
-    {
-        "sub": "user@example.com",
-        "type": "access"
-    }
-    ```
-
+    Извлекает время истечения токена из JWT payload.
+    Это гарантирует, что время совпадает с тем, что зашито в JWT.
+    
     Args:
-        - `user`: пользователь
-        - `token_type`: тип токена
-
+        payload: раскодированный JWT payload
+        
     Returns:
-        `str`: JWT токен
+        datetime: время истечения токена из JWT
+        
+    Raises:
+        ValueError: если поле exp отсутствует в payload
     """
-    jwt_payload = {"sub": user.email}
-    return create_jwt(token_type=token_type, token_data=jwt_payload)
+    exp_timestamp = payload.get("exp")
+    if exp_timestamp is None:
+        raise ValueError("Отсутствует поле 'exp' в JWT payload")
+
+    # JWT exp - это timestamp в секундах от epoch
+    return datetime.fromtimestamp(exp_timestamp, tz=timezone.utc)
