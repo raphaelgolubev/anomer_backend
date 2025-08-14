@@ -8,32 +8,25 @@ from src.database.tables import BlacklistedToken
 
 
 async def add_to_blacklist(
-    session: AsyncSession,
-    jti: str,
-    token_type: str,
-    user_id: str,
-    expires_at: datetime,
+    session: AsyncSession, jti: str, token_type: str, user_id: str, expires_at: datetime
 ) -> BlacklistedToken:
     """
     Добавляет токен в черный список.
-    
+
     Args:
         session: Сессия базы данных
         jti: JWT ID (уникальный идентификатор токена)
         token_type: Тип токена (access, refresh)
         user_id: ID пользователя
         expires_at: Время истечения токена
-        
+
     Returns:
         BlacklistedToken: Объект деактивированного токена
     """
     blacklisted_token = BlacklistedToken(
-        jti=jti,
-        token_type=token_type,
-        user_id=user_id,
-        expires_at=expires_at,
+        jti=jti, token_type=token_type, user_id=user_id, expires_at=expires_at
     )
-    
+
     session.add(blacklisted_token)
     await session.commit()
     return blacklisted_token
@@ -42,11 +35,11 @@ async def add_to_blacklist(
 async def is_token_blacklisted(session: AsyncSession, jti: str) -> bool:
     """
     Проверяет, находится ли токен в черном списке.
-    
+
     Args:
         session: Сессия базы данных
         jti: JWT ID (уникальный идентификатор токена)
-        
+
     Returns:
         bool: True, если токен в черном списке, False в противном случае
     """
@@ -60,11 +53,11 @@ async def get_blacklisted_token(
 ) -> Optional[BlacklistedToken]:
     """
     Получает информацию о деактивированном токене по его JTI.
-    
+
     Args:
         session: Сессия базы данных
         jti: JWT ID (уникальный идентификатор токена)
-        
+
     Returns:
         Optional[BlacklistedToken]: Объект деактивированного токена или None
     """
@@ -76,38 +69,36 @@ async def get_blacklisted_token(
 async def cleanup_expired_tokens(session: AsyncSession) -> int:
     """
     Удаляет истекшие токены из черного списка для очистки БД.
-    
+
     Args:
         session: Сессия базы данных
-        
+
     Returns:
         int: Количество удаленных записей
     """
     from sqlalchemy import delete
-    
+
     stmt = delete(BlacklistedToken).where(
         BlacklistedToken.expires_at < datetime.now(datetime.UTC)
     )
-    
+
     result = await session.execute(stmt)
     await session.commit()
-    
+
     return result.rowcount
 
 
 async def get_user_blacklisted_tokens(
-    session: AsyncSession, 
-    user_id: str,
-    limit: int = 50
+    session: AsyncSession, user_id: str, limit: int = 50
 ) -> list[BlacklistedToken]:
     """
     Получает список деактивированных токенов пользователя.
-    
+
     Args:
         session: Сессия базы данных
         user_id: ID пользователя
         limit: Максимальное количество записей
-        
+
     Returns:
         list[BlacklistedToken]: Список деактивированных токенов
     """
@@ -117,6 +108,6 @@ async def get_user_blacklisted_tokens(
         .order_by(BlacklistedToken.created_at.desc())
         .limit(limit)
     )
-    
+
     result = await session.execute(stmt)
     return list(result.scalars().all())

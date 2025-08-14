@@ -18,7 +18,7 @@ async def get_login_credentials(
     username: str = Form(),
     password: str = Form(),
 ) -> User:
-    """ 
+    """
     Создает форму `x-www-form-urlencode`.
     """
     unauthorized_exc = HTTPException(
@@ -27,7 +27,9 @@ async def get_login_credentials(
     if not (user := await users.get_user(session=session, email=username)):
         raise unauthorized_exc
 
-    if not hashing_encoding.verify_password(password=password, hashed_password=user.password):
+    if not hashing_encoding.verify_password(
+        password=password, hashed_password=user.password
+    ):
         raise unauthorized_exc
 
     if not user.is_email_verified:

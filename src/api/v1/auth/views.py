@@ -63,11 +63,11 @@ async def logout(
     # Получаем информацию о токене
     jti = payload.get(tokens.TOKEN_ID_FIELD)
     token_type = payload.get(tokens.TOKEN_TYPE_FIELD)
-    
+
     if not jti:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Токен не содержит идентификатор"
+            detail="Токен не содержит идентификатор",
         )
 
     # Получаем время истечения токена из JWT payload
@@ -76,7 +76,7 @@ async def logout(
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Ошибка извлечения времени истечения токена: {e}"
+            detail=f"Ошибка извлечения времени истечения токена: {e}",
         )
 
     try:
@@ -93,13 +93,13 @@ async def logout(
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Ошибка при деактивации токена: {e}"
+            detail=f"Ошибка при деактивации токена: {e}",
         )
 
     return {
         "message": "Выход выполнен успешно",
         "user_email": user.email,
-        "token_deactivated": True
+        "token_deactivated": True,
     }
 
 

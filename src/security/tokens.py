@@ -17,9 +17,9 @@ class TokenType(Enum):
 
 def create_token(user: User, token_type: TokenType) -> str:
     """
-    Создает JWT токен и добавляет в него: 
+    Создает JWT токен и добавляет в него:
     - информацию о пользователе в поле "sub"
-    - информацию о типе токена в поле "type" 
+    - информацию о типе токена в поле "type"
     - уникальный идентификатор токена в поле "jti".
 
     Пример токена:
@@ -44,7 +44,7 @@ def create_token(user: User, token_type: TokenType) -> str:
     jwt_payload = {
         TOKEN_TYPE_FIELD: token_type.value,
         TOKEN_ID_FIELD: jti,
-        "sub": user.email
+        "sub": user.email,
     }
 
     match token_type:
@@ -68,13 +68,13 @@ def get_token_expire_time_from_payload(payload: dict) -> datetime:
     """
     Извлекает время истечения токена из JWT payload.
     Это гарантирует, что время совпадает с тем, что зашито в JWT.
-    
+
     Args:
         payload: раскодированный JWT payload
-        
+
     Returns:
         datetime: время истечения токена из JWT
-        
+
     Raises:
         ValueError: если поле exp отсутствует в payload
     """
