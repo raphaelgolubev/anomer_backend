@@ -14,6 +14,8 @@ from alembic import context
 from src.config import settings
 from src.database.tables import Base
 
+import alembic_postgresql_enum  # support for creation, alteration and deletion of enums
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
