@@ -42,7 +42,7 @@ async def is_user_exists(session: AsyncSession, user_id: UUID) -> bool:
 async def is_user_email_verified(session: AsyncSession, user_id: UUID) -> bool:
     stmt = select(User).where(User.id == user_id)
     result = await session.scalar(stmt)
-    
+
     return result.status == UserStatus.ACTIVATED
 
 
@@ -58,7 +58,9 @@ async def verify_user_email(session: AsyncSession, email: str) -> bool:
         bool: True если статус успешно обновлен
     """
     try:
-        stmt = update(User).where(User.email == email).values(status=UserStatus.ACTIVATED)
+        stmt = (
+            update(User).where(User.email == email).values(status=UserStatus.ACTIVATED)
+        )
         result = await session.execute(stmt)
         await session.commit()
 

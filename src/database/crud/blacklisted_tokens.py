@@ -27,12 +27,16 @@ async def add_to_blacklist(
     # Конвертируем UTC время в московское время
     if expires_at.tzinfo:
         # Если есть timezone info, конвертируем в московское время
-        moscow_expires = expires_at.astimezone(ZoneInfo('Europe/Moscow')).replace(tzinfo=None)
+        moscow_expires = expires_at.astimezone(ZoneInfo("Europe/Moscow")).replace(
+            tzinfo=None
+        )
     else:
         # Если нет timezone info, считаем что это UTC и добавляем timezone, затем конвертируем
-        utc_expires = expires_at.replace(tzinfo=ZoneInfo('UTC'))
-        moscow_expires = utc_expires.astimezone(ZoneInfo('Europe/Moscow')).replace(tzinfo=None)
-    
+        utc_expires = expires_at.replace(tzinfo=ZoneInfo("UTC"))
+        moscow_expires = utc_expires.astimezone(ZoneInfo("Europe/Moscow")).replace(
+            tzinfo=None
+        )
+
     blacklisted_token = BlacklistedToken(
         jti=jti, token_type=token_type, user_id=user_id, expires_at=moscow_expires
     )
@@ -89,7 +93,8 @@ async def cleanup_expired_tokens(session: AsyncSession) -> int:
     from sqlalchemy import delete
 
     stmt = delete(BlacklistedToken).where(
-        BlacklistedToken.expires_at < datetime.now(ZoneInfo('Europe/Moscow')).replace(tzinfo=None)
+        BlacklistedToken.expires_at
+        < datetime.now(ZoneInfo("Europe/Moscow")).replace(tzinfo=None)
     )
 
     result = await session.execute(stmt)

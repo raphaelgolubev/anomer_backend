@@ -31,7 +31,7 @@ async def get_login_credentials(
         password=password, hashed_password=user.password
     ):
         raise unauthorized_exc
-    
+
     if user.status != UserStatus.ACTIVATED:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Пользователь не активен"

@@ -53,9 +53,11 @@ class User(Base, UuidMixin, TimestampMixin):
         nullable=False, default="USER", server_default="USER"
     )
     """ Уровень доступа """
-    
+
     status: Mapped[UserStatus] = mapped_column(
-        nullable=False, default=UserStatus.CREATED, server_default=UserStatus.CREATED.value
+        nullable=False,
+        default=UserStatus.CREATED,
+        server_default=UserStatus.CREATED.value,
     )
     """ Статус пользователя """
 
@@ -77,7 +79,9 @@ class BlacklistedToken(Base, UuidMixin, TimestampMixin):
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
     """ ID пользователя, которому принадлежал токен """
 
-    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=False), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=False), nullable=False
+    )
     """ Время истечения токена (для автоматической очистки) """
 
     # Связь с пользователем
