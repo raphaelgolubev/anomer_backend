@@ -8,8 +8,14 @@ import src.schemas.users as scheme
 from src.database.tables import User, UserStatus
 
 
-async def get_user(session: AsyncSession, email: str) -> User:
-    stmt = select(User).where(User.email == email)
+async def get_user(session: AsyncSession, email: str = None, user_id: UUID = None) -> User:
+    if email:
+        stmt = select(User).where(User.email == email)
+    elif user_id:
+        stmt = select(User).where(User.id == user_id)
+    else:
+        raise ValueError("Не передан ни один из параметров: email, user_id")
+
     result = await session.scalar(stmt)
 
     return result
