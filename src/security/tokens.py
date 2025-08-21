@@ -18,14 +18,18 @@ class TokenType(Enum):
 def create_token(user: User, token_type: TokenType) -> str:
     """
     Создает JWT токен и добавляет в него:
-    - информацию о пользователе в поле "sub"
-    - информацию о типе токена в поле "type"
-    - уникальный идентификатор токена в поле "jti".
+    - sub (subject) - информацию о пользователе
+    - role - информацию о роли пользователя
+    - type - информацию о типе токена
+    - jti (JSON web token identifier) - уникальный идентификатор токена
+    - exp (expire) - время истечения токена
+    - iat (issued_at) - время создания токена
 
     Пример токена:
     ```json
     {
         "sub": "user@example.com",
+        "role": "ADMIN",
         "type": "access",
         "jti": "unique-token-id"
     }
@@ -42,9 +46,10 @@ def create_token(user: User, token_type: TokenType) -> str:
     jti = str(uuid.uuid4())
 
     jwt_payload = {
+        "sub": user.email,
+        "role": user.role,
         TOKEN_TYPE_FIELD: token_type.value,
         TOKEN_ID_FIELD: jti,
-        "sub": user.email,
     }
 
     match token_type:
