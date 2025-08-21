@@ -23,11 +23,11 @@ class UserDeleteOut(BaseModel):
 
 class EmailVerificationIn(BaseModel):
     id: UUID
-    email: EmailStr
 
 
 class EmailVerificationOut(BaseModel):
     message: str
+    code_expires_in_seconds: int
 
 
 class VerifyCodeIn(BaseModel):
