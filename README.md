@@ -22,9 +22,8 @@
 <!-- ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend) -->
 
 # Описание
-```python
-raise NotImplementedError
-```
+**Anomer** - это просто еще один мессенджер без нагружающих деталей и усложненного функционала.
+Этот репозиторий представляет реализацию бэкенда для [iOS-клиента](https://github.com/raphaelgolubev/anomer_ios).
 
 # Установка
 
