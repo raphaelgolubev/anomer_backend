@@ -31,7 +31,9 @@ def create_token(user: User, token_type: TokenType) -> str:
         "sub": "user@example.com",
         "role": "ADMIN",
         "type": "access",
-        "jti": "unique-token-id"
+        "jti": "unique-token-id",
+        "exp": <timestamp>,
+        "iat": <timestamp>
     }
     ```
 
