@@ -67,9 +67,6 @@ def create_token(user: User, token_type: TokenType) -> str:
                 expire_minutes=settings.security.refresh_token_expire_minutes,
             )
 
-        case _:
-            raise ValueError(f"Unknown token type: {token_type}")
-
 
 def get_token_expire_time_from_payload(payload: dict) -> datetime:
     """
