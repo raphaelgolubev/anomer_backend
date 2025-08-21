@@ -107,6 +107,7 @@ certs/
 
 # Test scripts ("..._test.py")
 **/*_test.py
+/scripts
 
 # redis
 redis.conf
