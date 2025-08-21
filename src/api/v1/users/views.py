@@ -13,6 +13,8 @@ from src.database import database
 from src.database.tables import User
 from src.security.hashing_encoding import hash_password
 
+from src.config import settings
+
 router = APIRouter(tags=["Пользователи"])
 
 
@@ -43,8 +45,7 @@ async def send_verification_email(
     Отправляет код верификации на email
     """
     # проверяем, существует ли пользователь
-    user_exists = await crud.is_user_exists(session, email_data.id)
-    if not user_exists:
+    if not (user := await crud.get_user(session=session, user_id=email_data.id)):
         raise HTTPException(status_code=400, detail="Пользователь не найден")
 
     # проверяем, верифицирован ли email
@@ -52,14 +53,17 @@ async def send_verification_email(
     if is_verified:
         raise HTTPException(status_code=400, detail="Email уже верифицирован")
 
-    success = await service.send_verification_email(email_data.email)
+    success = await service.send_verification_email(user.email)
 
     if not success:
         raise HTTPException(
             status_code=500, detail="Не удалось отправить код верификации"
         )
 
-    return scheme.EmailVerificationOut(message="Код верификации отправлен на ваш email")
+    return scheme.EmailVerificationOut(
+        message="Код верификации отправлен на ваш email",
+        code_expires_in_seconds=settings.redis.verification_code_ttl
+    )
 
 
 @router.post("/verify-code/")
