@@ -1,3 +1,4 @@
+from enum import Enum
 from datetime import datetime
 
 from sqlalchemy import String, DateTime, MetaData, ForeignKey
@@ -13,8 +14,6 @@ from src.config import settings
 from src.utils.case_converter import camel_case_to_snake_case
 from src.database.mixins.uuid_id_pk_mixin import UuidMixin
 from src.database.mixins.created_updated_at_mixin import TimestampMixin
-
-from enum import Enum
 
 
 class UserStatus(Enum):
