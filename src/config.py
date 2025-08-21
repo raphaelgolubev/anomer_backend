@@ -96,8 +96,13 @@ class RedisSettings(BaseSettings):
     host: str = "localhost"
     port: int = 6379
     db: int = 0
+    """ Название базы данных """
+    
     password: str | None = None
+    """ Пароль для аутентификации """
+    
     verification_code_ttl: int = 300  # 5 минут в секундах
+    """ Срок жизни верификационного кода в секундах """
 
     model_config = ModelConfig(env_prefix="REDIS_")
 
