@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import database
 from src.security import tokens, hashing_encoding
 from src.database.crud import users, blacklisted_tokens
-from src.database.tables import User
+from src.database.tables import User, UserStatus
 
 http_bearer = HTTPBearer()
 
@@ -31,8 +31,8 @@ async def get_login_credentials(
         password=password, hashed_password=user.password
     ):
         raise unauthorized_exc
-
-    if not user.is_email_verified:
+    
+    if user.status != UserStatus.ACTIVATED:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Пользователь не активен"
         )
@@ -109,7 +109,7 @@ async def get_user_from_payload(payload: dict) -> User | None:
                 detail="Пользователь не найден",
             )
         # проверяем, что пользователь активирован
-        if not user.is_email_verified:
+        if user.status != UserStatus.ACTIVATED:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN, detail="Пользователь не активен"
             )

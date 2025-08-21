@@ -14,6 +14,19 @@ from src.utils.case_converter import camel_case_to_snake_case
 from src.database.mixins.uuid_id_pk_mixin import UuidMixin
 from src.database.mixins.created_updated_at_mixin import TimestampMixin
 
+from enum import Enum
+
+
+class UserStatus(Enum):
+    CREATED = "CREATED"
+    """ Пользователь создан """
+
+    ACTIVATED = "ACTIVATED"
+    """ Пользователь подтвердил эл. почту """
+
+    BANNED = "BANNED"
+    """ Пользователь забанен """
+
 
 class Base(DeclarativeBase):
     __abstract__ = True
@@ -41,11 +54,11 @@ class User(Base, UuidMixin, TimestampMixin):
         nullable=False, default="USER", server_default="USER"
     )
     """ Уровень доступа """
-
-    is_email_verified: Mapped[bool] = mapped_column(
-        nullable=False, default=False, server_default="FALSE"
+    
+    status: Mapped[UserStatus] = mapped_column(
+        nullable=False, default=UserStatus.CREATED, server_default=UserStatus.CREATED.value
     )
-    """ Флаг, указывающий подтвердил ли пользователь электронную почту """
+    """ Статус пользователя """
 
     # Связь с деактивированными токенами
     blacklisted_tokens: Mapped[list["BlacklistedToken"]] = relationship(

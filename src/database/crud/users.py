@@ -5,7 +5,7 @@ from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import src.schemas.users as scheme
-from src.database.tables import User
+from src.database.tables import User, UserStatus
 
 
 async def get_user(session: AsyncSession, email: str) -> User:
@@ -42,7 +42,8 @@ async def is_user_exists(session: AsyncSession, user_id: UUID) -> bool:
 async def is_user_email_verified(session: AsyncSession, user_id: UUID) -> bool:
     stmt = select(User).where(User.id == user_id)
     result = await session.scalar(stmt)
-    return result.is_email_verified
+    
+    return result.status == UserStatus.ACTIVATED
 
 
 async def verify_user_email(session: AsyncSession, email: str) -> bool:
@@ -57,7 +58,7 @@ async def verify_user_email(session: AsyncSession, email: str) -> bool:
         bool: True если статус успешно обновлен
     """
     try:
-        stmt = update(User).where(User.email == email).values(is_email_verified=True)
+        stmt = update(User).where(User.email == email).values(status=UserStatus.ACTIVATED)
         result = await session.execute(stmt)
         await session.commit()
 
