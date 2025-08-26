@@ -81,7 +81,7 @@ alembic/versions/__pycache__/
 !.env.example
 
 # VS Code
-.vscode/
+# .vscode/
 
 # macOS
 .DS_Store
