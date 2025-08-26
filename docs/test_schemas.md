@@ -1,5 +1,5 @@
 ## API scheme
-![api excalidraw](schemas/api.excalidraw.png)
+![api excalidraw](schemas/api.excalidraw.svg)
 
 ## Tables scheme
-![tables drawio](schemas/tables.drawio.svg)
+![tables drawio](schemas/tables.dio.png)
