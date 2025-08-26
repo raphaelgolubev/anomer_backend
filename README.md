@@ -7,19 +7,11 @@
 <p align="center">
   <img alt="Static Badge" src="https://img.shields.io/badge/raphael_golubev-anomer-5ad1e6">
   <img alt="GitHub Created At" src="https://img.shields.io/github/created-at/raphaelgolubev/anomer_backend">
-  <img alt="GitHub" src="https://img.shields.io/github/license/raphaelgolubev/anomer_backend">
+  <img alt="GitHub" src="https://img.shields.io/github/license/raphaelgolubev/anomer_backend?color=white">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/raphaelgolubev/anomer_backend">
   <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/t/raphaelgolubev/anomer_backend?color=green">
-  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/raphaelgolubev/anomer_backend?color=black">
 </p>
-
-<!-- ![Static Badge](https://img.shields.io/badge/raphael_golubev-anomer-5ad1e6) -->
-<!-- ![GitHub Created At](https://img.shields.io/github/created-at/raphaelgolubev/anomer_backend) -->
-<!-- ![GitHub](https://img.shields.io/github/license/raphaelgolubev/anomer_backend) -->
-
-<!-- ![GitHub top language](https://img.shields.io/github/languages/top/raphaelgolubev/anomer_backend) -->
-<!-- ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/raphaelgolubev/anomer_backend?color=green) -->
-<!-- ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/raphaelgolubev/anomer_backend) -->
 
 # Описание
 **Anomer** - это просто еще один мессенджер без нагружающих деталей и усложненного функционала.
