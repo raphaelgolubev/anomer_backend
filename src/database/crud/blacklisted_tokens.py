@@ -1,6 +1,5 @@
 from typing import Optional
-from datetime import datetime
-from zoneinfo import ZoneInfo
+from datetime import datetime, timezone
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -24,21 +23,16 @@ async def add_to_blacklist(
     Returns:
         BlacklistedToken: Объект деактивированного токена
     """
-    # Конвертируем UTC время в московское время
+    # Конвертируем datetime в Unix timestamp
     if expires_at.tzinfo:
-        # Если есть timezone info, конвертируем в московское время
-        moscow_expires = expires_at.astimezone(ZoneInfo("Europe/Moscow")).replace(
-            tzinfo=None
-        )
+        # Если есть timezone info, конвертируем в UTC timestamp
+        expires_timestamp = int(expires_at.astimezone(timezone.utc).timestamp())
     else:
-        # Если нет timezone info, считаем что это UTC и добавляем timezone, затем конвертируем
-        utc_expires = expires_at.replace(tzinfo=ZoneInfo("UTC"))
-        moscow_expires = utc_expires.astimezone(ZoneInfo("Europe/Moscow")).replace(
-            tzinfo=None
-        )
+        # Если нет timezone info, считаем что это UTC и конвертируем в timestamp
+        expires_timestamp = int(expires_at.replace(tzinfo=timezone.utc).timestamp())
 
     blacklisted_token = BlacklistedToken(
-        jti=jti, token_type=token_type, user_id=user_id, expires_at=moscow_expires
+        jti=jti, token_type=token_type, user_id=user_id, expires_at=expires_timestamp
     )
 
     session.add(blacklisted_token)
@@ -92,9 +86,11 @@ async def cleanup_expired_tokens(session: AsyncSession) -> int:
     """
     from sqlalchemy import delete
 
+    # Получаем текущий Unix timestamp
+    current_timestamp = int(datetime.now(timezone.utc).timestamp())
+    
     stmt = delete(BlacklistedToken).where(
-        BlacklistedToken.expires_at
-        < datetime.now(ZoneInfo("Europe/Moscow")).replace(tzinfo=None)
+        BlacklistedToken.expires_at < current_timestamp
     )
 
     result = await session.execute(stmt)
