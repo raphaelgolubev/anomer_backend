@@ -5,7 +5,8 @@ from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import src.schemas.users as scheme
-from src.database.tables import User, UserStatus
+from src.database.tables import User
+from src.entities import UserStatus
 
 
 async def get_user(session: AsyncSession, email: str = None, user_id: UUID = None) -> User:

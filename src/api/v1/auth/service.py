@@ -8,7 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import database
 from src.security import tokens, hashing_encoding
 from src.database.crud import users, blacklisted_tokens
-from src.database.tables import User, UserStatus
+from src.database.tables import User
+from src.entities import UserStatus
 
 http_bearer = HTTPBearer()
 
