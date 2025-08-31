@@ -6,6 +6,8 @@ import src.security.hashing_encoding as jwt_utils
 from src.config import settings
 from src.database.tables import User
 
+TOKEN_SUBJECT_FIELD = "sub"
+TOKEN_ROLE_FIELD = "role"
 TOKEN_TYPE_FIELD = "type"
 TOKEN_ID_FIELD = "jti"
 
@@ -28,7 +30,7 @@ def create_token(user: User, token_type: TokenType) -> str:
     Пример токена:
     ```json
     {
-        "sub": "user@example.com",
+        "sub":  "user@example.com",
         "role": "ADMIN",
         "type": "access",
         "jti": "unique-token-id",
@@ -48,8 +50,8 @@ def create_token(user: User, token_type: TokenType) -> str:
     jti = str(uuid.uuid4())
 
     jwt_payload = {
-        "sub": user.email,
-        "role": user.role,
+        TOKEN_SUBJECT_FIELD: user.email,
+        TOKEN_ROLE_FIELD: user.role,
         TOKEN_TYPE_FIELD: token_type.value,
         TOKEN_ID_FIELD: jti,
     }
