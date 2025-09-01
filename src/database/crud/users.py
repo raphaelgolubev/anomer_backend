@@ -1,4 +1,3 @@
-from uuid import UUID
 from typing import Sequence
 
 from sqlalchemy import delete, select, update
@@ -9,7 +8,7 @@ from src.database.tables import User
 from src.entities import UserStatus
 
 
-async def get_user(session: AsyncSession, email: str = None, user_id: UUID = None) -> User:
+async def get_user(session: AsyncSession, email: str = None, user_id: int = None) -> User:
     if email:
         stmt = select(User).where(User.email == email)
     elif user_id:
@@ -40,13 +39,13 @@ async def create_user(session: AsyncSession, user_create: scheme.UserCreateIn) -
     return user
 
 
-async def is_user_exists(session: AsyncSession, user_id: UUID) -> bool:
+async def is_user_exists(session: AsyncSession, user_id: int) -> bool:
     stmt = select(User).where(User.id == user_id)
     result = await session.scalar(stmt)
     return result is not None
 
 
-async def is_user_email_verified(session: AsyncSession, user_id: UUID) -> bool:
+async def is_user_email_verified(session: AsyncSession, user_id: int) -> bool:
     stmt = select(User).where(User.id == user_id)
     result = await session.scalar(stmt)
 
@@ -78,8 +77,25 @@ async def verify_user_email(session: AsyncSession, email: str) -> bool:
         return False
 
 
-async def delete_user(session: AsyncSession, user_id: UUID) -> bool:
-    stmt = delete(User).where(User.id == user_id)
-    result = await session.execute(stmt)
+async def delete_user(session: AsyncSession, user_id: int) -> bool:
+    """
+    Удаляет пользователя и все связанные с ним данные каскадом.
+    
+    Args:
+        session: Сессия базы данных
+        user_id: ID пользователя для удаления
+        
+    Returns:
+        bool: True если пользователь успешно удален
+    """
+    # Получаем пользователя с загруженными связями
+    user = await get_user(session=session, user_id=user_id)
+    if not user:
+        return False
+    
+    # Удаляем пользователя - SQLAlchemy автоматически удалит связанные записи
+    # благодаря cascade="all, delete-orphan" в relationship
+    await session.delete(user)
     await session.commit()
-    return result.rowcount > 0
+    
+    return True
