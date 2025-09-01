@@ -1,13 +1,13 @@
-# Redis конфигурация для Anomer Backend
+# Redis конфигурация для *{APP_NAME}
 
 # Основные настройки
-bind 0.0.0.0
-port 6379
+bind *{REDIS_HOST}
+port *{REDIS_PORT}
 timeout 0
 tcp-keepalive 300
 
 # Настройки безопасности
-requirepass ${REDIS_PASSWORD}
+requirepass *{REDIS_PASSWORD}
 
 # Настройки производительности
 maxmemory 256mb
