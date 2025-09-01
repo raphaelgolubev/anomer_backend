@@ -131,7 +131,7 @@ fi
 print_status "Проверяем и устанавливаем права доступа для скриптов..."
 
 # Список скриптов для проверки
-scripts=("alembic.sh" "create_env_example.sh")
+scripts=("alembic.sh" "scripts/create_env_example.sh")
 
 for script in "${scripts[@]}"; do
     if [ -f "$script" ]; then
@@ -162,7 +162,7 @@ fi
 
 # Создаем docker-compose.yml
 print_status "Создаем docker-compose.yml..."
-if python3 scripts/replacer.py .env docker-compose.yml.example -o docker-compose.yml; then
+if python3 scripts/replacer.py .env docker-compose.example.yml -o docker-compose.yml; then
     print_success "docker-compose.yml создан успешно"
 else
     print_error "Ошибка при создании docker-compose.yml"
