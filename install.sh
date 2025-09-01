@@ -36,16 +36,19 @@ print_status "Начинаем установку Anomer Backend..."
 # Проверяем наличие необходимых утилит
 print_status "Проверяем наличие необходимых утилит..."
 
+# Проверяем что uv установлен, иначе выход из скрипта
 if ! command -v uv &> /dev/null; then
     print_error "uv не найден! Установите uv: brew install uv"
     exit 1
 fi
 
+# Проверяем что openssl установлен, иначе выход из скрипта
 if ! command -v openssl &> /dev/null; then
     print_error "openssl не найден! Установите openssl"
     exit 1
 fi
 
+# Проверяем что docker установлен, иначе выход из скрипта
 if ! command -v docker &> /dev/null; then
     print_warning "Docker не найден! Установите Docker Desktop для работы с базой данных"
 fi
@@ -75,6 +78,7 @@ if [ -f "certs/jwt-private.pem" ] || [ -f "certs/jwt-public.pem" ]; then
     fi
 fi
 
+# Выполняем создание новых сертификатов
 if [ "$goto_uv_sync" != "true" ]; then
     # Генерация приватного ключа
     print_status "Генерируем приватный RSA ключ..."
@@ -101,6 +105,7 @@ if [ "$goto_uv_sync" != "true" ]; then
 fi
 
 # Проверяем наличие .env файла
+# Копируем .env.example в .env (при клонировании файла .env нет)
 if [ ! -f ".env" ]; then
     print_warning "Файл .env не найден!"
     print_status "Создаем файл .env с настройками окружения..."
@@ -126,7 +131,7 @@ fi
 print_status "Проверяем и устанавливаем права доступа для скриптов..."
 
 # Список скриптов для проверки
-scripts=("alembic.sh" "create_env_example.sh" "install.sh", "create_redis_conf.sh")
+scripts=("alembic.sh" "create_env_example.sh")
 
 for script in "${scripts[@]}"; do
     if [ -f "$script" ]; then
@@ -146,11 +151,21 @@ for script in "${scripts[@]}"; do
     fi
 done
 
+# При клонировании у юзера нет файла redis.conf, поэтому генерируем его из файла redis.conf.example
 print_status "Создаем redis.conf..."
-if ./create_redis_conf.sh; then
+if python3 scripts/replacer.py .env redis.conf.example -o redis.conf; then
     print_success "redis.conf создан успешно"
 else
     print_error "Ошибка при создании redis.conf"
+    exit 1
+fi
+
+# Создаем docker-compose.yml
+print_status "Создаем docker-compose.yml..."
+if python3 scripts/replacer.py .env docker-compose.yml.example -o docker-compose.yml; then
+    print_success "docker-compose.yml создан успешно"
+else
+    print_error "Ошибка при создании docker-compose.yml"
     exit 1
 fi
 
