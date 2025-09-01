@@ -1,39 +1,47 @@
-from uuid import UUID
-
 from pydantic import EmailStr, BaseModel
 
+# GET /users/
+class UserRead(BaseModel):
+    id: int
+    email: str
 
+
+# /create/
+# ---
 class UserCreateIn(BaseModel):
     email: EmailStr
     password: str
 
-
 class UserCreateOut(BaseModel):
-    id: UUID
+    """ Информацию о созданном пользователе или об ошибке """
+    id: int | None = None
+    created: bool
+    message: str
 
 
-class UserRead(BaseModel):
-    id: UUID
-    email: str
-
-
+# /delete/{id}
+# ---
 class UserDeleteOut(BaseModel):
-    is_deleted: bool
+    deleted: bool
+    message: str
 
 
+# /send-verification/
+# ---
 class EmailVerificationIn(BaseModel):
-    id: UUID
-
+    id: int
 
 class EmailVerificationOut(BaseModel):
+    sent: bool = True
     message: str
-    code_expires_in_seconds: int
+    code_expires_in_seconds: int = None
 
 
+# /verify-code/
+# ---
 class VerifyCodeIn(BaseModel):
     email: EmailStr
     code: str
-
 
 class VerifyCodeOut(BaseModel):
     verified: bool
