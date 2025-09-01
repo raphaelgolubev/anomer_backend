@@ -107,8 +107,11 @@ certs/
 
 # Test scripts ("..._test.py")
 **/*_test.py
-/scripts
+# /scripts
 
 # redis
 redis.conf
 !.redis.conf.example
+
+# docker compose
+docker-compose.yml
