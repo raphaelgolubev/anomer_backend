@@ -6,6 +6,7 @@ from fastapi.responses import ORJSONResponse
 from src.api.v1 import main_router as api_v1_router
 from src.config import settings
 from src.database import database
+from src.exceptions import register_exception_handlers
 
 
 async def startup():
@@ -48,5 +49,8 @@ app = FastAPI(
     version=settings.app.app_version,
     description="Anomer backend monolith",
 )
+
+# Регистрируем обработчики исключений
+register_exception_handlers(app)
 
 app.include_router(api_v1_router)
