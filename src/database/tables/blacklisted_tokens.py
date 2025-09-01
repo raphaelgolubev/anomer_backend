@@ -21,7 +21,10 @@ class BlacklistedToken(Base, IntIdPkMixin, TimestampMixin):
     token_type: Mapped[str] = mapped_column(String(50), nullable=False)
     """ Тип токена (access, refresh) """
 
-    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
+    user_id: Mapped[str] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), 
+        nullable=False
+    )
     """ ID пользователя, которому принадлежал токен """
 
     expires_at: Mapped[int] = mapped_column(
@@ -30,7 +33,11 @@ class BlacklistedToken(Base, IntIdPkMixin, TimestampMixin):
     """ Время истечения токена в Unix timestamp (секунды от epoch) """
 
     # Связь с пользователем
-    user: Mapped["User"] = relationship("User", back_populates="blacklisted_tokens")
+    user: Mapped["User"] = relationship(
+        "User", 
+        back_populates="blacklisted_tokens",
+        passive_deletes=True
+    )
 
 
 if TYPE_CHECKING:

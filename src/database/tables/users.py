@@ -39,7 +39,10 @@ class User(Base, IntIdPkMixin, TimestampMixin):
 
     # Связь с деактивированными токенами
     blacklisted_tokens: Mapped[list["BlacklistedToken"]] = relationship(
-        "BlacklistedToken", back_populates="user", cascade="all, delete-orphan"
+        "BlacklistedToken", 
+        back_populates="user", 
+        cascade="all, delete-orphan",
+        passive_deletes=True
     )
 
 
