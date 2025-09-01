@@ -1,11 +1,11 @@
 from typing import Sequence
 
-from sqlalchemy import delete, select, update
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import src.schemas.users as scheme
-from src.database.tables import User
 from src.entities import UserStatus
+from src.database.tables import User
 
 
 async def get_user(

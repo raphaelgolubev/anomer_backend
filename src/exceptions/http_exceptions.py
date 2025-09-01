@@ -1,8 +1,9 @@
 from typing import Any, Dict, Optional
+
 from fastapi import HTTPException, status
 from pydantic import BaseModel
+
 from src.exceptions import ErrorCode
-import src.exceptions.error_codes as error_code
 
 
 class CustomHTTPException(HTTPException):

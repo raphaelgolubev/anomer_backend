@@ -1,12 +1,11 @@
 from typing import TYPE_CHECKING
+
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
+from src.entities import UserStatus
+from src.database.tables.base import Base
 from src.database.mixins.int_id_pk_mixin import IntIdPkMixin
 from src.database.mixins.created_updated_at_mixin import TimestampMixin
-
-from src.database.tables.base import Base
-
-from src.entities import UserStatus
 
 
 class User(Base, IntIdPkMixin, TimestampMixin):

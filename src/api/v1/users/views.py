@@ -8,14 +8,12 @@ import src.schemas.users as scheme
 import src.api.v1.auth.service as auth_service
 import src.database.crud.users as crud
 import src.api.v1.users.service as service
+import src.exceptions.error_codes as error_code
+from src.config import settings
 from src.database import database
+from src.exceptions import CustomHTTPException
 from src.database.tables import User
 from src.security.hashing_encoding import hash_password
-
-from src.config import settings
-
-from src.exceptions import CustomHTTPException
-import src.exceptions.error_codes as error_code
 
 router = APIRouter(tags=["Пользователи"])
 

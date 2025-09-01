@@ -6,10 +6,10 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import database
+from src.entities import UserStatus
 from src.security import tokens, hashing_encoding
 from src.database.crud import users, blacklisted_tokens
 from src.database.tables import User
-from src.entities import UserStatus
 
 http_bearer = HTTPBearer()
 

@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
 from typing import Union
+from datetime import datetime, timezone
 
 from sqlalchemy import Integer, BigInteger
 from sqlalchemy.orm import Mapped, mapped_column

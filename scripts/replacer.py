@@ -2,9 +2,9 @@
 # Скрипт заменяет вхождения *{VAR} в файле значениями из .env
 # Поддерживает кавычки, пробелы и простые комментарии в .env
 
-import argparse
 import re
 import sys
+import argparse
 from pathlib import Path
 
 

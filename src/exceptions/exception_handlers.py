@@ -1,11 +1,12 @@
 from typing import Union
+
 from fastapi import Request, status
+from pydantic import ValidationError as PydanticValidationError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError, ProgrammingError
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError, ProgrammingError
-from pydantic import ValidationError as PydanticValidationError
 
-from .http_exceptions import CustomHTTPException, DatabaseError, ValidationError
+from .http_exceptions import DatabaseError, ValidationError, CustomHTTPException
 
 
 async def custom_http_exception_handler(

@@ -4,10 +4,10 @@ CLI инструмент для редактирования .env файлов
 Поддерживает добавление параметров, секций и переименование секций
 """
 
-import argparse
+import os
 import re
 import sys
-import os
+import argparse
 from typing import Optional
 
 
@@ -82,7 +82,7 @@ class EnvFileEditor:
         """Проверяет, что параметр имеет префикс секции"""
         if "_" not in param_name:
             raise ValueError(
-                f"Все параметры должны иметь префикс секции, например 'SERVER_DEBUG', где 'SERVER_' это префикс с названием секции"
+                "Все параметры должны иметь префикс секции, например 'SERVER_DEBUG', где 'SERVER_' это префикс с названием секции"
             )
 
     def _get_section_from_param(self, param_name: str) -> str:
