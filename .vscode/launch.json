@@ -15,6 +15,19 @@
             ],
             "jinja": false,
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Debugger: env_editor",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "env_editor",
+            "args": [
+                "remove",
+                "section",
+                "Server",
+            ],
+            "jinja": false,
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
