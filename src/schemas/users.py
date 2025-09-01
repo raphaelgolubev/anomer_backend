@@ -1,5 +1,6 @@
 from pydantic import EmailStr, BaseModel
 
+
 # GET /users/
 class UserRead(BaseModel):
     id: int
@@ -12,8 +13,10 @@ class UserCreateIn(BaseModel):
     email: EmailStr
     password: str
 
+
 class UserCreateOut(BaseModel):
-    """ Информацию о созданном пользователе или об ошибке """
+    """Информацию о созданном пользователе или об ошибке"""
+
     id: int | None = None
     created: bool
     message: str
@@ -31,6 +34,7 @@ class UserDeleteOut(BaseModel):
 class EmailVerificationIn(BaseModel):
     id: int
 
+
 class EmailVerificationOut(BaseModel):
     sent: bool = True
     message: str
@@ -42,6 +46,7 @@ class EmailVerificationOut(BaseModel):
 class VerifyCodeIn(BaseModel):
     email: EmailStr
     code: str
+
 
 class VerifyCodeOut(BaseModel):
     verified: bool

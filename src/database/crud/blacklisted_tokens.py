@@ -88,7 +88,7 @@ async def cleanup_expired_tokens(session: AsyncSession) -> int:
 
     # Получаем текущий Unix timestamp
     current_timestamp = int(datetime.now(timezone.utc).timestamp())
-    
+
     stmt = delete(BlacklistedToken).where(
         BlacklistedToken.expires_at < current_timestamp
     )

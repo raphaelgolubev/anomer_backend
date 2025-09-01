@@ -97,10 +97,10 @@ class RedisSettings(BaseSettings):
     port: int = 6379
     db: int = 0
     """ Название базы данных """
-    
+
     password: str | None = None
     """ Пароль для аутентификации """
-    
+
     verification_code_ttl: int = 300  # 5 минут в секундах
     """ Срок жизни верификационного кода в секундах """
 

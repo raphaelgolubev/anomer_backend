@@ -10,6 +10,9 @@ from src.schemas.auth import TokenInfo
 from src.database.crud import blacklisted_tokens
 from src.database.tables import User
 
+from src.exceptions import CustomHTTPException
+import src.exceptions.error_codes as error_code
+
 router = APIRouter(tags=["Авторизация"])
 
 

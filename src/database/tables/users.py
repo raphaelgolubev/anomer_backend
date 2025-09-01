@@ -1,9 +1,5 @@
 from typing import TYPE_CHECKING
-from sqlalchemy.orm import (
-    Mapped,
-    relationship,
-    mapped_column,
-)
+from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from src.database.mixins.int_id_pk_mixin import IntIdPkMixin
 from src.database.mixins.created_updated_at_mixin import TimestampMixin
@@ -39,10 +35,10 @@ class User(Base, IntIdPkMixin, TimestampMixin):
 
     # Связь с деактивированными токенами
     blacklisted_tokens: Mapped[list["BlacklistedToken"]] = relationship(
-        "BlacklistedToken", 
-        back_populates="user", 
+        "BlacklistedToken",
+        back_populates="user",
         cascade="all, delete-orphan",
-        passive_deletes=True
+        passive_deletes=True,
     )
 
 

@@ -8,7 +8,9 @@ from src.database.tables import User
 from src.entities import UserStatus
 
 
-async def get_user(session: AsyncSession, email: str = None, user_id: int = None) -> User:
+async def get_user(
+    session: AsyncSession, email: str = None, user_id: int = None
+) -> User:
     if email:
         stmt = select(User).where(User.email == email)
     elif user_id:
@@ -80,11 +82,11 @@ async def verify_user_email(session: AsyncSession, email: str) -> bool:
 async def delete_user(session: AsyncSession, user_id: int) -> bool:
     """
     Удаляет пользователя и все связанные с ним данные каскадом.
-    
+
     Args:
         session: Сессия базы данных
         user_id: ID пользователя для удаления
-        
+
     Returns:
         bool: True если пользователь успешно удален
     """
@@ -92,10 +94,10 @@ async def delete_user(session: AsyncSession, user_id: int) -> bool:
     user = await get_user(session=session, user_id=user_id)
     if not user:
         return False
-    
+
     # Удаляем пользователя - SQLAlchemy автоматически удалит связанные записи
     # благодаря cascade="all, delete-orphan" в relationship
     await session.delete(user)
     await session.commit()
-    
+
     return True

@@ -34,9 +34,8 @@ async def create_new_user(
         raise CustomHTTPException(
             error_code.USER_ALREADY_EXISTS,
             scheme.UserCreateOut(
-                created=False,
-                message="Пользователь с таким email уже существует"
-            )
+                created=False, message="Пользователь с таким email уже существует"
+            ),
         )
 
     # возвращаем созданного юзера
@@ -56,10 +55,7 @@ async def send_verification_email(
     if not (user := await crud.get_user(session=session, user_id=email_data.id)):
         raise CustomHTTPException(
             error_code.USER_NOT_FOUND,
-            scheme.EmailVerificationOut(
-                sent=False,
-                message="Пользователь не найден"
-            ),
+            scheme.EmailVerificationOut(sent=False, message="Пользователь не найден"),
         )
 
     # проверяем, верифицирован ли email
@@ -67,10 +63,7 @@ async def send_verification_email(
     if is_verified:
         raise CustomHTTPException(
             error_code.EMAIL_ALREADY_VERIFIED,
-            scheme.EmailVerificationOut(
-                sent=False,
-                message="Email уже верифицирован"
-            )
+            scheme.EmailVerificationOut(sent=False, message="Email уже верифицирован"),
         )
 
     success = await service.send_verification_email(user.email)
@@ -79,15 +72,14 @@ async def send_verification_email(
         raise CustomHTTPException(
             error_code.UNABLE_SEND_EMAIL,
             scheme.EmailVerificationOut(
-                sent=False,
-                message="Не удалось отправить код верификации"
-            )
+                sent=False, message="Не удалось отправить код верификации"
+            ),
         )
 
     return scheme.EmailVerificationOut(
         sent=True,
         message="Код верификации отправлен на ваш email",
-        code_expires_in_seconds=settings.redis.verification_code_ttl
+        code_expires_in_seconds=settings.redis.verification_code_ttl,
     )
 
 
@@ -107,7 +99,7 @@ async def verify_email_code(
             error_code.INCORRECT_VERIFICATION_CODE,
             scheme.VerifyCodeOut(
                 verified=False, message="Неверный код верификации или код истек"
-            )
+            ),
         )
 
     # Обновляем статус в базе данных
@@ -118,7 +110,7 @@ async def verify_email_code(
             error_code.USER_NOT_FOUND,
             scheme.VerifyCodeOut(
                 verified=False, message="Пользователь с таким email не найден"
-            )
+            ),
         )
 
     return scheme.VerifyCodeOut(verified=True, message="Email успешно подтвержден")
@@ -147,11 +139,11 @@ async def delete_user(
 ) -> scheme.UserDeleteOut:
     """
     Удаляет пользователя и все связанные с ним данные каскадом.
-    
+
     Args:
         user_id: ID пользователя для удаления
         session: Сессия базы данных
-        
+
     Returns:
         UserDeleteOut: Результат операции удаления
     """
@@ -161,14 +153,13 @@ async def delete_user(
             raise CustomHTTPException(
                 error_code.USER_NOT_FOUND,
                 scheme.UserDeleteOut(
-                    deleted=False, 
-                    message=f"Пользователь с ID {user_id} не найден"
-                )
+                    deleted=False, message=f"Пользователь с ID {user_id} не найден"
+                ),
             )
-        
+
         return scheme.UserDeleteOut(
-            deleted=True, 
-            message=f"Пользователь {user_id} и все связанные данные успешно удалены"
+            deleted=True,
+            message=f"Пользователь {user_id} и все связанные данные успешно удалены",
         )
     except Exception as e:
         # Логируем ошибку для отладки
@@ -176,7 +167,6 @@ async def delete_user(
         raise CustomHTTPException(
             error_code.USER_DELETE_ERROR,
             scheme.UserDeleteOut(
-                deleted=False, 
-                message="Произошла ошибка при удалении пользователя"
-            )
+                deleted=False, message="Произошла ошибка при удалении пользователя"
+            ),
         )

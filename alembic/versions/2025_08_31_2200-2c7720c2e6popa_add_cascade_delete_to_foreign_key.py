@@ -24,11 +24,9 @@ def upgrade() -> None:
     """Upgrade schema."""
     # Удаляем существующий внешний ключ
     op.drop_constraint(
-        "fk_blacklisted_tokens_user_id_users", 
-        "blacklisted_tokens", 
-        type_="foreignkey"
+        "fk_blacklisted_tokens_user_id_users", "blacklisted_tokens", type_="foreignkey"
     )
-    
+
     # Создаем новый внешний ключ с каскадным удалением
     op.create_foreign_key(
         "fk_blacklisted_tokens_user_id_users",
@@ -36,7 +34,7 @@ def upgrade() -> None:
         "users",
         ["user_id"],
         ["id"],
-        ondelete="CASCADE"
+        ondelete="CASCADE",
     )
 
 
@@ -44,16 +42,14 @@ def downgrade() -> None:
     """Downgrade schema."""
     # Удаляем внешний ключ с каскадным удалением
     op.drop_constraint(
-        "fk_blacklisted_tokens_user_id_users", 
-        "blacklisted_tokens", 
-        type_="foreignkey"
+        "fk_blacklisted_tokens_user_id_users", "blacklisted_tokens", type_="foreignkey"
     )
-    
+
     # Восстанавливаем внешний ключ без каскадного удаления
     op.create_foreign_key(
         "fk_blacklisted_tokens_user_id_users",
         "blacklisted_tokens",
         "users",
         ["user_id"],
-        ["id"]
+        ["id"],
     )
