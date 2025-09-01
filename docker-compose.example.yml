@@ -1,0 +1,57 @@
+version: '3.8'
+
+networks:
+  local_network:
+    driver: bridge
+
+volumes:
+  db_volume:
+    name: postgres_data
+  redis_volume:
+    name: redis_data
+
+services:
+  pg:
+    image: postgres:14.1-alpine
+    container_name: anomer_db
+    restart: "unless-stopped"
+    env_file:
+      - path: .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    networks:
+      - local_network
+    ports:
+      - "*{DB_PORT}:*{DB_PORT}"
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    healthcheck:
+      # Команда, которая будет выполняться для проверки состояния контейнера.
+      # Здесь pg_isready проверяет доступность Postgres, используя имя пользователя и базы из переменных окружения.
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      # Как часто выполнять проверку (каждые 10 секунд).
+      interval: 10s
+      # Максимальное время ожидания ответа от проверки (5 секунд).
+      timeout: 5s
+      # Сколько раз подряд должна завершиться неудачей, чтобы контейнер считался unhealthy.
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: anomer_redis
+    restart: "unless-stopped"
+    networks:
+      - local_network
+    ports:
+      - "*{REDIS_PORT}:*{REDIS_PORT}"
+    volumes:
+      - redis_volume:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
