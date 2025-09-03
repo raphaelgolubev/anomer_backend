@@ -87,12 +87,12 @@ def main():
         env = parse_env(args.envfile)
     except Exception as e:
         print(f"Ошибка при чтении .env: {e}", file=sys.stderr)
-        sys.exit(2)
+        sys.exit(1)
 
     # Проверка наличия целевого файла
     if not args.target.exists():
         print(f"Целевой файл не найден: {args.target}", file=sys.stderr)
-        sys.exit(3)
+        sys.exit(1)
 
     # Чтение, замена и вывод/сохранение результата
     text = args.target.read_text(encoding="utf-8")
