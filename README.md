@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.svg" width="128" height="128">
+  <img src="docs/images/logo.svg" width="128" height="128">
   <h1 align="center">Anomer (backend)</h1>
   <p align="center"> Another New Online MEssengeR</p>
 </p>
