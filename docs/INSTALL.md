@@ -9,18 +9,19 @@
 ### для MacOS или Linux
 - у вас установлен `Homebrew`, если нет, тогда установите его:
 
-  ```shell
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  ```
+    ```shell
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
 
   <sub> `Homebrew` - это утилита командной строки в macOS и Linux, которая позволяет устанавливать пакеты и приложения. </sub>
 
 - у вас установлен пакетный менеджер `uv`, если нет, тогда установите его с помощью `Homebrew`:
+
     ```shell
     brew install uv
     ```
 
-    <sub> `uv` - это чрезвычайно быстрый пакетный менеджер Python, написанный на Rust. Разработан как замена для pip и pip-tools. Помимо этого он может собой заменить venv и pyenv. </sub>
+  <sub> `uv` - это чрезвычайно быстрый пакетный менеджер Python, написанный на Rust. Разработан как замена для pip и pip-tools. Помимо этого он может собой заменить venv и pyenv. </sub>
 
 
 > Примечание: Вы можете выбрать любой другой пакетный менеджер вместо `uv` и не устанавливать `Homebrew`, я ничего не навязываю, но туториал и скрипты написаны таким образом, что без этих утилит не обойтись. 
