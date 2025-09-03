@@ -5,8 +5,23 @@
         "exportWithDarkMode": false
     },
     "workbench.editorAssociations": {
-        "*.svg": "editor.excalidraw",
-        "*.png": "hediet.vscode-drawio"
+        // excalidraw
+        "*.excalidraw.svg": "editor.excalidraw",
+        "*.excalidraw.png": "editor.excalidraw",
+        // drawio
+        "*.dio.svg": "hediet.vscode-drawio",
+        "*.dio.png": "hediet.vscode-drawio",
+        "*.drawio.svg": "hediet.vscode-drawio",
+        "*.drawio.png": "hediet.vscode-drawio",
+        // images
+        "*.jpg": "imagePreview.previewEditor",
+        "*.jpeg": "imagePreview.previewEditor",
+        "*.png": "imagePreview.previewEditor",
+        "*.gif": "imagePreview.previewEditor",
+        "*.bmp": "imagePreview.previewEditor",
+        "*.tiff": "imagePreview.previewEditor",
+        "*.ico": "imagePreview.previewEditor",
+        "*.webp": "imagePreview.previewEditor"
     },
     "hediet.vscode-drawio.theme": "sketch",
 }
