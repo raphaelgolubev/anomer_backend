@@ -4,11 +4,11 @@ from sqlalchemy import String, BigInteger, ForeignKey
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from src.database.tables.base import Base
-from src.database.mixins.int_id_pk_mixin import IntIdPkMixin
-from src.database.mixins.created_updated_at_mixin import TimestampMixin
+
+import src.database.mixins as mixins
 
 
-class BlacklistedToken(Base, IntIdPkMixin, TimestampMixin):
+class BlacklistedToken(Base, mixins.IntIdPkMixin, mixins.CreatedAt, mixins.UpdatedAt):
     """Таблица для черного списка токенов (деактивированные токены)"""
 
     jti: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
