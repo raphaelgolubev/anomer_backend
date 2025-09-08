@@ -4,6 +4,9 @@
         "exportWithBackground": true,
         "exportWithDarkMode": false
     },
+    "excalidraw.language": "ru-RU",
+    "excalidraw.theme": "dark",
+    "excalidraw.workspaceLibraryPath": "/docs/excalidrawLibrary/my_library.excalidrawlib",
     "workbench.editorAssociations": {
         // excalidraw
         "*.excalidraw.svg": "editor.excalidraw",
