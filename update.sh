@@ -26,6 +26,21 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Спрашиваем uv sync
+read -p "Выполнить 'uv sync'? [y/N]: " do_uv_sync
+if [[ "$do_uv_sync" =~ ^[Yy]$ ]]; then
+    print_status "Выполняем 'uv sync'..."
+    if uv sync; then
+        print_success "'uv sync' выполнен успешно"
+    else
+        print_error "Ошибка при выполнении 'uv sync'"
+        exit 1
+    fi
+else
+    print_warning "'uv sync' пропущен по запросу пользователя"
+fi
+
+
 # Проверяем, что мы в корневой директории проекта
 if [ ! -f "pyproject.toml" ]; then
     print_error "Скрипт должен быть запущен из корневой директории проекта!"
