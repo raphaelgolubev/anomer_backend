@@ -96,7 +96,7 @@ alembic/versions/__pycache__/
 .uv/
 
 # Ruff cache
-.ruff_cache/ 
+.ruff_cache/
 
 # Markdown-файлы для личного пользования
 *.my.md
@@ -115,3 +115,6 @@ redis.conf
 
 # docker compose
 docker-compose.yml
+
+# Zed IDE
+.ropeproject/
