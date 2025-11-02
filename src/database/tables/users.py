@@ -2,15 +2,15 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
-from src.entities import UserStatus
+from src.entities import UserStatus, UserRole
 from src.database.tables.base import Base
 
 import src.database.mixins as mixins
 
 
 
-class User(Base, mixins.IntIdPkMixin, mixins.CreatedAt, mixins.UpdatedAt):
-    """Таблица пользователей"""
+class User(Base, mixins.IntIDMixin, mixins.CreatedAt, mixins.UpdatedAt):
+    """ Таблица пользователей """
 
     username: Mapped[str] = mapped_column(nullable=True, unique=True)
     """ Имя пользователя """
@@ -19,10 +19,10 @@ class User(Base, mixins.IntIdPkMixin, mixins.CreatedAt, mixins.UpdatedAt):
     """ Электронная почта """
 
     password: Mapped[str] = mapped_column(nullable=False)
-    """Хэшированный пароль"""
+    """ Хэшированный пароль """
 
-    role: Mapped[str] = mapped_column(
-        nullable=False, default="USER", server_default="USER"
+    role: Mapped[UserRole] = mapped_column(
+        nullable=False, default=UserRole.USER, server_default=UserRole.USER.value
     )
     """ Уровень доступа """
 

@@ -8,7 +8,7 @@ from src.database.tables.base import Base
 import src.database.mixins as mixins
 
 
-class BlacklistedToken(Base, mixins.IntIdPkMixin, mixins.CreatedAt, mixins.UpdatedAt):
+class BlacklistedToken(Base, mixins.IntIDMixin, mixins.CreatedAt, mixins.UpdatedAt):
     """Таблица для черного списка токенов (деактивированные токены)"""
 
     jti: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
