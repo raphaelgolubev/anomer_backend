@@ -8,7 +8,7 @@ from src.database.pg_func import unix_timestamp
 
 class UpdatedAt:
     """
-    Миксин для добавления поля updated_at в Unix timestamp формате.
+    Миксин для добавления поля `updated_at` в Unix timestamp формате.
     """
     
     updated_at: Mapped[int] = mapped_column(
