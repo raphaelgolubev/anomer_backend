@@ -36,7 +36,7 @@ async def shutdown():
 
 
 @asynccontextmanager
-async def lifespan(_app: FastAPI):
+async def lifespan(app: FastAPI):
     """Жизненный цикл приложения"""
     await startup()
     yield
